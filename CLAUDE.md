@@ -1,5 +1,9 @@
 # CLAUDE.md
 
+## Project Purpose
+
+This is a **marketing AI platform** that helps entrepreneurs and businesses find product-market fit. It provides AI-powered tools and insights to analyze target audiences, validate business ideas, and develop effective go-to-market strategies.
+
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
 ## Commands
