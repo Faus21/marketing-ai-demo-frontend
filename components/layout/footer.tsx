@@ -1,10 +1,31 @@
 import Link from "next/link";
 
-const FOOTER_LINKS = {
-  Product: ["Features", "Pricing", "Integrations", "Changelog"],
-  Company: ["About", "Blog", "Careers", "Contact"],
-  Resources: ["Documentation", "API Reference", "Community", "Support"],
-  Legal: ["Privacy", "Terms", "Cookie Policy"],
+type FooterLink = { label: string; href: string };
+
+const FOOTER_LINKS: Record<string, FooterLink[]> = {
+  Product: [
+    { label: "Features", href: "#features" },
+    { label: "Pricing", href: "#pricing" },
+    { label: "Integrations", href: "#" },
+    { label: "Changelog", href: "#" },
+  ],
+  Company: [
+    { label: "About", href: "#" },
+    { label: "Blog", href: "#" },
+    { label: "Careers", href: "#" },
+    { label: "Contact", href: "#" },
+  ],
+  Resources: [
+    { label: "Documentation", href: "#" },
+    { label: "API Reference", href: "#" },
+    { label: "Community", href: "#" },
+    { label: "Support", href: "#" },
+  ],
+  Legal: [
+    { label: "Privacy Policy", href: "/privacy" },
+    { label: "Terms of Service", href: "/terms" },
+    { label: "Cookie Policy", href: "#" },
+  ],
 };
 
 export default function Footer() {
@@ -29,10 +50,10 @@ export default function Footer() {
               <h4 className="mb-3 text-sm font-medium text-foreground">{category}</h4>
               <ul className="flex flex-col gap-2">
                 {links.map((link) => (
-                  <li key={link}>
-                    <a href="#" className="text-sm text-muted transition-colors hover:text-foreground">
-                      {link}
-                    </a>
+                  <li key={link.label}>
+                    <Link href={link.href} className="text-sm text-muted transition-colors hover:text-foreground">
+                      {link.label}
+                    </Link>
                   </li>
                 ))}
               </ul>
