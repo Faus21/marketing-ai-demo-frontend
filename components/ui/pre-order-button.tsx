@@ -16,7 +16,8 @@ export default function PreOrderButton({
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [agreed, setAgreed] = useState(false);
-  const [submitted, setSubmitted] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
   const dialogRef = useRef<HTMLDialogElement>(null);
 
   useEffect(() => {
@@ -45,9 +46,31 @@ export default function PreOrderButton({
     }
   }
 
-  function handleSubmit(e: React.FormEvent) {
+  async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
-    setSubmitted(true);
+    setLoading(true);
+    setError("");
+
+    try {
+      const res = await fetch("/api/checkout", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name, email }),
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        setError(data.error ?? "Something went wrong. Please try again.");
+        return;
+      }
+
+      window.location.href = data.url;
+    } catch {
+      setError("Something went wrong. Please try again.");
+    } finally {
+      setLoading(false);
+    }
   }
 
   function handleClose() {
@@ -57,7 +80,8 @@ export default function PreOrderButton({
       setName("");
       setEmail("");
       setAgreed(false);
-      setSubmitted(false);
+      setLoading(false);
+      setError("");
     }, 200);
   }
 
@@ -89,9 +113,8 @@ export default function PreOrderButton({
             </svg>
           </button>
 
-          {!submitted ? (
-            <>
-              {/* Header */}
+          <>
+            {/* Header */}
               <div className="text-center">
                 <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-accent/10">
                   <svg
@@ -175,56 +198,25 @@ export default function PreOrderButton({
                   </span>
                 </label>
 
+                {error && (
+                  <p className="rounded-lg bg-red-500/10 px-4 py-2 text-center text-sm text-red-400">
+                    {error}
+                  </p>
+                )}
+
                 <button
                   type="submit"
-                  disabled={!agreed}
+                  disabled={!agreed || loading}
                   className="flex h-12 w-full items-center justify-center rounded-xl bg-accent text-sm font-semibold text-white shadow-[0_0_24px_rgba(99,102,241,0.3)] transition-all hover:bg-accent-light hover:shadow-[0_0_32px_rgba(99,102,241,0.4)] disabled:cursor-not-allowed disabled:opacity-40 disabled:shadow-none disabled:hover:bg-accent"
                 >
-                  Confirm Pre-Order — $10
+                  {loading ? "Redirecting to checkout…" : "Confirm Pre-Order — $10"}
                 </button>
 
                 <p className="text-center text-xs text-muted">
-                  Secure payment &middot; Full refund if we don&apos;t launch &middot; Cancel anytime
+                  Secure payment via Stripe &middot; Full refund if we don&apos;t launch &middot; Cancel anytime
                 </p>
               </form>
-            </>
-          ) : (
-            /* Success state */
-            <div className="py-4 text-center">
-              <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-full bg-emerald-500/10">
-                <svg
-                  width="28"
-                  height="28"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  className="text-emerald-400"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M4.5 12.75l6 6 9-13.5"
-                  />
-                </svg>
-              </div>
-              <h3 className="text-xl font-bold">You&apos;re in!</h3>
-              <p className="mt-2 text-sm text-muted">
-                Thanks, {name.split(" ")[0]}! We&apos;ve reserved your founding-member spot.
-                Check <strong className="text-foreground">{email}</strong> for a confirmation
-                and next steps.
-              </p>
-              <p className="mt-4 text-sm text-muted">
-                See you on <strong className="text-foreground">April 15, 2026</strong>.
-              </p>
-              <button
-                onClick={handleClose}
-                className="mt-8 flex h-11 w-full items-center justify-center rounded-xl border border-border text-sm font-medium transition-colors hover:bg-surface"
-              >
-                Close
-              </button>
-            </div>
-          )}
+          </>
         </div>
       </dialog>
     </>
