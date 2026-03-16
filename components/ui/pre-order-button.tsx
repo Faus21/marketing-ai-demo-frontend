@@ -75,7 +75,6 @@ export default function PreOrderButton({
 
   function handleClose() {
     setOpen(false);
-    // Reset after close animation
     setTimeout(() => {
       setName("");
       setEmail("");
@@ -94,16 +93,15 @@ export default function PreOrderButton({
       <dialog
         ref={dialogRef}
         onClick={handleBackdropClick}
-        className="m-auto max-w-md rounded-2xl border border-border bg-surface-light p-0 text-foreground backdrop:bg-black/60 backdrop:backdrop-blur-sm open:animate-[fade-in_200ms_ease-out]"
+        className="m-auto w-full max-w-sm rounded-xl border border-border/40 bg-surface-light p-0 text-foreground backdrop:bg-black/70 backdrop:backdrop-blur-sm open:animate-[fade-in-scale_150ms_ease-out]"
       >
-        <div className="relative p-8">
-          {/* Close button */}
+        <div className="relative p-7">
           <button
             onClick={handleClose}
-            className="absolute right-4 top-4 flex h-8 w-8 items-center justify-center rounded-lg text-muted transition-colors hover:bg-surface hover:text-foreground"
+            className="absolute right-3 top-3 flex h-7 w-7 items-center justify-center rounded-md text-muted transition-colors hover:text-foreground"
             aria-label="Close"
           >
-            <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+            <svg width="14" height="14" viewBox="0 0 16 16" fill="none">
               <path
                 d="M3 3L13 13M13 3L3 13"
                 stroke="currentColor"
@@ -113,110 +111,96 @@ export default function PreOrderButton({
             </svg>
           </button>
 
-          <>
-            {/* Header */}
-              <div className="text-center">
-                <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-accent/10">
-                  <svg
-                    width="24"
-                    height="24"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                    strokeWidth="1.5"
-                    className="text-accent-light"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="M15.59 14.37a6 6 0 01-5.84 7.38v-4.8m5.84-2.58a14.98 14.98 0 006.16-12.12A14.98 14.98 0 009.631 8.41m5.96 5.96a14.926 14.926 0 01-5.841 2.58m-.119-8.54a6 6 0 00-7.381 5.84h4.8m2.58-5.84a14.927 14.927 0 00-2.58 5.84m2.699 2.7c-.103.021-.207.041-.311.06a15.09 15.09 0 01-2.448-2.448 14.9 14.9 0 01.06-.312m-2.24 2.39a4.493 4.493 0 00-1.757 4.306 4.493 4.493 0 004.306-1.758M16.5 9a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0z"
-                    />
-                  </svg>
-                </div>
-                <h3 className="text-xl font-bold">Reserve Your Spot</h3>
-                <p className="mt-2 text-sm text-muted">
-                  Join the founding 100. One-time $10 pre-order — full access on April 15, 2026.
-                </p>
-              </div>
+          <div>
+            <h3 className="text-[15px] font-semibold">Reserve your spot</h3>
+            <p className="mt-1 text-[13px] text-muted">
+              One-time $10 pre-order. Full access April 15, 2026.
+            </p>
+          </div>
 
-              {/* Form */}
-              <form onSubmit={handleSubmit} className="mt-8 space-y-5">
-                <div>
-                  <label
-                    htmlFor="preorder-name"
-                    className="mb-1.5 block text-sm font-medium"
-                  >
-                    Full name
-                  </label>
-                  <input
-                    id="preorder-name"
-                    type="text"
-                    required
-                    value={name}
-                    onChange={(e) => setName(e.target.value)}
-                    placeholder="Jane Doe"
-                    className="h-11 w-full rounded-xl border border-border bg-surface px-4 text-sm text-foreground placeholder:text-muted/50 outline-none transition-colors focus:border-accent"
-                  />
-                </div>
+          <form onSubmit={handleSubmit} className="mt-6 space-y-4">
+            <div>
+              <label
+                htmlFor="preorder-name"
+                className="mb-1 block text-[12px] font-medium text-muted"
+              >
+                Full name
+              </label>
+              <input
+                id="preorder-name"
+                type="text"
+                required
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                placeholder="Jane Doe"
+                className="h-9 w-full rounded-lg border border-border/50 bg-surface px-3 text-[13px] text-foreground placeholder:text-subtle outline-none transition-colors focus:border-accent/60"
+              />
+            </div>
 
-                <div>
-                  <label
-                    htmlFor="preorder-email"
-                    className="mb-1.5 block text-sm font-medium"
-                  >
-                    Email address
-                  </label>
-                  <input
-                    id="preorder-email"
-                    type="email"
-                    required
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    placeholder="jane@company.com"
-                    className="h-11 w-full rounded-xl border border-border bg-surface px-4 text-sm text-foreground placeholder:text-muted/50 outline-none transition-colors focus:border-accent"
-                  />
-                </div>
+            <div>
+              <label
+                htmlFor="preorder-email"
+                className="mb-1 block text-[12px] font-medium text-muted"
+              >
+                Email
+              </label>
+              <input
+                id="preorder-email"
+                type="email"
+                required
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder="jane@company.com"
+                className="h-9 w-full rounded-lg border border-border/50 bg-surface px-3 text-[13px] text-foreground placeholder:text-subtle outline-none transition-colors focus:border-accent/60"
+              />
+            </div>
 
-                <label className="flex cursor-pointer items-start gap-3">
-                  <input
-                    type="checkbox"
-                    required
-                    checked={agreed}
-                    onChange={(e) => setAgreed(e.target.checked)}
-                    className="mt-0.5 h-4 w-4 shrink-0 cursor-pointer appearance-none rounded border border-border bg-surface checked:border-accent checked:bg-accent"
-                  />
-                  <span className="text-sm leading-snug text-muted">
-                    I agree to the{" "}
-                    <Link href="/terms" target="_blank" className="text-accent-light underline underline-offset-2 hover:text-accent">
-                      Terms of Service
-                    </Link>{" "}
-                    and{" "}
-                    <Link href="/privacy" target="_blank" className="text-accent-light underline underline-offset-2 hover:text-accent">
-                      Privacy Policy
-                    </Link>
-                    , and understand this is a pre-order with access granted on launch day.
-                  </span>
-                </label>
-
-                {error && (
-                  <p className="rounded-lg bg-red-500/10 px-4 py-2 text-center text-sm text-red-400">
-                    {error}
-                  </p>
-                )}
-
-                <button
-                  type="submit"
-                  disabled={!agreed || loading}
-                  className="flex h-12 w-full items-center justify-center rounded-xl bg-accent text-sm font-semibold text-white shadow-[0_0_24px_rgba(99,102,241,0.3)] transition-all hover:bg-accent-light hover:shadow-[0_0_32px_rgba(99,102,241,0.4)] disabled:cursor-not-allowed disabled:opacity-40 disabled:shadow-none disabled:hover:bg-accent"
+            <label className="flex cursor-pointer items-start gap-2.5">
+              <input
+                type="checkbox"
+                required
+                checked={agreed}
+                onChange={(e) => setAgreed(e.target.checked)}
+                className="mt-0.5 h-3.5 w-3.5 shrink-0 cursor-pointer appearance-none rounded border border-border/50 bg-surface checked:border-accent checked:bg-accent"
+              />
+              <span className="text-[12px] leading-snug text-muted">
+                I agree to the{" "}
+                <Link
+                  href="/terms"
+                  target="_blank"
+                  className="text-accent-light underline underline-offset-2 hover:text-accent"
                 >
-                  {loading ? "Redirecting to checkout…" : "Confirm Pre-Order — $10"}
-                </button>
+                  Terms
+                </Link>{" "}
+                and{" "}
+                <Link
+                  href="/privacy"
+                  target="_blank"
+                  className="text-accent-light underline underline-offset-2 hover:text-accent"
+                >
+                  Privacy Policy
+                </Link>
+              </span>
+            </label>
 
-                <p className="text-center text-xs text-muted">
-                  Secure payment via Stripe &middot; Full refund if we don&apos;t launch &middot; Cancel anytime
-                </p>
-              </form>
-          </>
+            {error && (
+              <p className="rounded-lg bg-red-500/10 px-3 py-2 text-center text-[12px] text-red-400">
+                {error}
+              </p>
+            )}
+
+            <button
+              type="submit"
+              disabled={!agreed || loading}
+              className="flex h-9 w-full items-center justify-center rounded-lg bg-accent text-[13px] font-medium text-white transition-all duration-200 hover:bg-accent-light disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:bg-accent"
+            >
+              {loading ? "Redirecting..." : "Confirm — $10"}
+            </button>
+
+            <p className="text-center text-[11px] text-subtle">
+              Secure payment via Stripe &middot; Cancel anytime
+            </p>
+          </form>
         </div>
       </dialog>
     </>

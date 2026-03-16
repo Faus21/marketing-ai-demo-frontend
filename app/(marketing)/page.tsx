@@ -2,221 +2,121 @@ import type { Metadata } from "next";
 import PreOrderButton from "@/components/ui/pre-order-button";
 
 export const metadata: Metadata = {
-  title: "MarketFit AI — Find Product-Market Fit Faster",
+  title: "MarketFit AI — Reverse-Engineer Viral Growth",
   description:
-    "Stop wasting money on guesswork. AI-powered marketing intelligence that helps you find product-market fit and cut customer acquisition costs by up to 60%.",
+    "Analyze competitor videos that actually went viral. Get AI-generated growth playbooks tailored to your niche. Stop guessing, start growing.",
 };
 
-const STATS = [
-  { value: "$536", label: "Avg. B2B Customer Acquisition Cost" },
-  { value: "72%", label: "Startups fail due to poor market fit" },
-  { value: "26%", label: "Marketing budget wasted on wrong channels" },
-  { value: "60%", label: "CAC reduction with proper market fit" },
+const PLATFORMS = [
+  "TikTok",
+  "YouTube Shorts",
+  "Instagram Reels",
+  "X / Twitter",
 ];
 
 const FEATURES = [
   {
-    icon: (
-      <svg
-        width="24"
-        height="24"
-        fill="none"
-        viewBox="0 0 24 24"
-        stroke="currentColor"
-        strokeWidth="1.5"
-      >
-        <path
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          d="M3.75 3v11.25A2.25 2.25 0 006 16.5h2.25M3.75 3h-1.5m1.5 0h16.5m0 0h1.5m-1.5 0v11.25A2.25 2.25 0 0118 16.5h-2.25m-7.5 0h7.5m-7.5 0l-1 3m8.5-3l1 3m0 0l.5 1.5m-.5-1.5h-9.5m0 0l-.5 1.5m.75-9l3-1.5m-3 1.5l-3-1.5m6 0l3 1.5m-3-1.5V6.75"
-        />
-      </svg>
-    ),
-    title: "AI Audience Analysis",
+    label: "Competitor Video Analysis",
     description:
-      "Instantly discover who your ideal customers are. Our AI analyzes market signals, competitor data, and behavioral patterns to build precise audience profiles.",
+      "Our AI scans viral competitor content across TikTok, YouTube Shorts, Reels, and X — identifying which hooks, formats, and CTAs actually drove engagement.",
   },
   {
-    icon: (
-      <svg
-        width="24"
-        height="24"
-        fill="none"
-        viewBox="0 0 24 24"
-        stroke="currentColor"
-        strokeWidth="1.5"
-      >
-        <path
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          d="M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 013 19.875v-6.75zM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V8.625zM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V4.125z"
-        />
-      </svg>
-    ),
-    title: "Channel Optimization",
+    label: "Trend & Hook Detection",
     description:
-      "Stop throwing money at every channel. Our AI identifies the highest-ROI marketing channels for your specific market and allocates budget intelligently.",
+      "Automatically detect trending formats, opening hooks, and conversion patterns that are working right now in your niche. Updated continuously.",
   },
   {
-    icon: (
-      <svg
-        width="24"
-        height="24"
-        fill="none"
-        viewBox="0 0 24 24"
-        stroke="currentColor"
-        strokeWidth="1.5"
-      >
-        <path
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09zM18.259 8.715L18 9.75l-.259-1.035a3.375 3.375 0 00-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 002.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 002.455 2.456L21.75 6l-1.036.259a3.375 3.375 0 00-2.455 2.456zM16.894 20.567L16.5 21.75l-.394-1.183a2.25 2.25 0 00-1.423-1.423L13.5 18.75l1.183-.394a2.25 2.25 0 001.423-1.423l.394-1.183.394 1.183a2.25 2.25 0 001.423 1.423l1.183.394-1.183.394a2.25 2.25 0 00-1.423 1.423z"
-        />
-      </svg>
-    ),
-    title: "Market Fit Scoring",
+    label: "Growth Playbook Generation",
     description:
-      "Get a real-time product-market fit score powered by AI. Track how well your offering resonates with your target market and get actionable suggestions to improve.",
+      "Get a ready-to-execute 3–12 month marketing playbook tailored to your business — with content calendars, channel priorities, and messaging frameworks.",
   },
   {
-    icon: (
-      <svg
-        width="24"
-        height="24"
-        fill="none"
-        viewBox="0 0 24 24"
-        stroke="currentColor"
-        strokeWidth="1.5"
-      >
-        <path
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          d="M12 6v12m-3-2.818l.879.659c1.171.879 3.07.879 4.242 0 1.172-.879 1.172-2.303 0-3.182C13.536 12.219 12.768 12 12 12c-.725 0-1.45-.22-2.003-.659-1.106-.879-1.106-2.303 0-3.182s2.9-.879 4.006 0l.415.33M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-        />
-      </svg>
-    ),
-    title: "CAC Reduction Engine",
+    label: "Performance Benchmarking",
     description:
-      "Our AI continuously optimizes your go-to-market strategy to reduce customer acquisition costs. Most businesses see a 40-60% reduction within the first 90 days.",
+      "See exactly how competitors perform across platforms. Understand what's working at scale so you can replicate the signal, not the noise.",
   },
   {
-    icon: (
-      <svg
-        width="24"
-        height="24"
-        fill="none"
-        viewBox="0 0 24 24"
-        stroke="currentColor"
-        strokeWidth="1.5"
-      >
-        <path
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          d="M7.5 14.25v2.25m3-4.5v4.5m3-6.75v6.75m3-9v9M6 20.25h12A2.25 2.25 0 0020.25 18V6A2.25 2.25 0 0018 3.75H6A2.25 2.25 0 003.75 6v12A2.25 2.25 0 006 20.25z"
-        />
-      </svg>
-    ),
-    title: "Competitor Intelligence",
+    label: "Niche Intelligence",
     description:
-      "Understand exactly what your competitors are doing, where they're spending, and where they're leaving gaps. Find your unfair advantage with AI-driven analysis.",
+      "Deep analysis of your specific market vertical. Know which content angles resonate, which CTAs convert, and where attention is underpriced.",
   },
   {
-    icon: (
-      <svg
-        width="24"
-        height="24"
-        fill="none"
-        viewBox="0 0 24 24"
-        stroke="currentColor"
-        strokeWidth="1.5"
-      >
-        <path
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          d="M15.59 14.37a6 6 0 01-5.84 7.38v-4.8m5.84-2.58a14.98 14.98 0 006.16-12.12A14.98 14.98 0 009.631 8.41m5.96 5.96a14.926 14.926 0 01-5.841 2.58m-.119-8.54a6 6 0 00-7.381 5.84h4.8m2.58-5.84a14.927 14.927 0 00-2.58 5.84m2.699 2.7c-.103.021-.207.041-.311.06a15.09 15.09 0 01-2.448-2.448 14.9 14.9 0 01.06-.312m-2.24 2.39a4.493 4.493 0 00-1.757 4.306 4.493 4.493 0 004.306-1.758M16.5 9a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0z"
-        />
-      </svg>
-    ),
-    title: "Go-to-Market Playbooks",
+    label: "Export & Execute",
     description:
-      "Get AI-generated, customized go-to-market strategies based on your industry, audience, and competitive landscape. Launch with confidence, not guesswork.",
+      "Export your playbook as a structured brief for your team or agency. Integrates with the tools you already use — no workflow changes needed.",
   },
 ];
 
 const STEPS = [
   {
-    step: "01",
-    title: "Tell us about your business",
+    num: "01",
+    title: "Connect your niche",
     description:
-      "Describe your product, target market, and goals. Our AI starts building your market intelligence profile in seconds.",
+      "Tell us your product, market, and competitors. Our AI begins scanning thousands of videos across platforms within minutes.",
   },
   {
-    step: "02",
-    title: "Get AI-powered insights",
+    num: "02",
+    title: "AI analyzes what works",
     description:
-      "Receive detailed analysis of your market fit, ideal customer profiles, competitive gaps, and the most effective channels to reach your audience.",
+      "We detect which hooks, formats, CTAs, and trends actually drove engagement and conversions — not just vanity metrics.",
   },
   {
-    step: "03",
-    title: "Launch & optimize",
+    num: "03",
+    title: "Get your playbook",
     description:
-      "Execute your AI-optimized strategy and watch your CAC drop. Our engine continuously learns and refines recommendations as data flows in.",
+      "Receive a tailored 3–12 month growth strategy with specific content types, posting cadences, and channel allocation.",
   },
 ];
 
-const EARLY_ACCESS_FEATURES = [
-  "Full AI audience analysis",
-  "Real-time market fit scoring",
-  "Channel optimization engine",
-  "Competitor intelligence",
-  "Go-to-market playbooks",
-  "CAC reduction engine",
+const INCLUDED = [
+  "Unlimited competitor video analysis",
+  "AI-generated growth playbooks",
+  "Trend & hook detection engine",
+  "Cross-platform intelligence",
+  "Performance benchmarking",
+  "Export-ready briefs",
   "Priority founding-member support",
-  "Lock in lifetime discount on launch pricing",
+  "Lifetime discount locked in",
 ];
 
 export default function HomePage() {
   return (
     <>
       {/* ─── HERO ─── */}
-      <section className="relative overflow-hidden">
-        {/* Background glow */}
-        <div className="pointer-events-none absolute left-1/2 top-0 -translate-x-1/2">
-          <div className="h-[600px] w-[900px] rounded-full bg-accent/10 blur-[120px]" />
-        </div>
+      <section className="relative">
+        <div className="orb orb-accent left-1/2 top-0 h-[600px] w-[800px] -translate-x-1/2 -translate-y-1/3" />
 
-        <div className="relative mx-auto max-w-6xl px-6 pb-24 pt-28 text-center md:pb-32 md:pt-40">
-          <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-border bg-surface-light/60 px-4 py-1.5 text-sm text-muted backdrop-blur-sm">
-            <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-amber-400" />
-            Pre-order open — only 100 spots
+        <div className="relative mx-auto max-w-3xl px-6 pb-32 pt-36 text-center md:pb-40 md:pt-48">
+          <div className="mb-8 inline-flex items-center gap-2 rounded-full border border-border/40 px-3 py-1 text-[12px] text-muted">
+            <span className="h-1.5 w-1.5 rounded-full bg-emerald-400" />
+            Early access — limited spots
           </div>
 
-          <h1 className="mx-auto max-w-4xl text-4xl font-bold leading-[1.1] tracking-tight md:text-6xl lg:text-7xl">
-            Stop burning cash on{" "}
-            <span className="gradient-text">marketing that misses</span>
+          <h1 className="text-[clamp(2rem,5.5vw,3.5rem)] font-semibold leading-[1.1] tracking-[-0.035em]">
+            Reverse-engineer{" "}
+            <span className="gradient-text">viral growth</span>
+            <br className="hidden sm:block" />
+            from competitor content
           </h1>
 
-          <p className="mx-auto mt-6 max-w-2xl text-lg leading-relaxed text-muted md:text-xl">
-            The average business spends{" "}
-            <strong className="text-foreground">
-              $536 to acquire a single B2B customer
-            </strong>
-            . MarketFit AI uses artificial intelligence to help you find
-            product-market fit faster and cut acquisition costs by up to 60%.
+          <p className="mx-auto mt-6 max-w-xl text-[15px] leading-relaxed text-muted">
+            MarketFit AI analyzes videos that actually went viral across{" "}
+            {PLATFORMS.join(", ")}. It detects what worked — hooks, formats,
+            CTAs — and generates a tailored growth playbook for your business.
           </p>
 
-          <div className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
-            <PreOrderButton className="inline-flex h-12 items-center justify-center rounded-xl bg-accent px-7 text-sm font-semibold text-white shadow-[0_0_32px_rgba(99,102,241,0.3)] transition-all hover:bg-accent-light hover:shadow-[0_0_48px_rgba(99,102,241,0.4)]">
-              Reserve My Spot — $10
+          <div className="mt-10 flex flex-col items-center justify-center gap-3 sm:flex-row">
+            <PreOrderButton className="inline-flex h-10 items-center justify-center rounded-lg bg-accent px-5 text-[13px] font-medium text-white transition-all duration-200 hover:bg-accent-light glow-sm">
+              Get Early Access — $10
             </PreOrderButton>
             <a
               href="#how-it-works"
-              className="inline-flex h-12 items-center justify-center gap-2 rounded-xl border border-border px-7 text-sm font-medium text-muted transition-colors hover:border-accent/50 hover:text-foreground"
+              className="inline-flex h-10 items-center gap-1.5 px-4 text-[13px] text-muted transition-colors duration-200 hover:text-foreground"
             >
-              See How It Works
+              How it works
               <svg
-                width="16"
-                height="16"
+                width="12"
+                height="12"
                 fill="none"
                 viewBox="0 0 24 24"
                 stroke="currentColor"
@@ -233,106 +133,111 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ─── STATS BAR ─── */}
-      <section className="border-y border-border bg-surface/50">
-        <div className="mx-auto grid max-w-6xl grid-cols-2 gap-px md:grid-cols-4">
-          {STATS.map((stat) => (
+      {/* ─── SIGNAL BAR ─── */}
+      <section className="border-y border-border/30">
+        <div className="mx-auto grid max-w-5xl grid-cols-2 md:grid-cols-4">
+          {[
+            { value: "10K+", label: "Videos analyzed daily" },
+            { value: "4", label: "Platforms covered" },
+            { value: "3–12mo", label: "Playbook depth" },
+            { value: "< 5 min", label: "Time to first insight" },
+          ].map((stat, i) => (
             <div
               key={stat.label}
-              className="flex flex-col items-center gap-1 px-6 py-8 text-center"
+              className={`flex flex-col items-center gap-1 px-4 py-8 text-center ${
+                i < 3 ? "border-r border-border/30" : ""
+              } ${i === 1 ? "max-md:border-r-0" : ""} ${
+                i < 2 ? "max-md:border-b max-md:border-border/30" : ""
+              }`}
             >
-              <span className="text-2xl font-bold text-accent-light md:text-3xl">
+              <span className="font-mono text-lg font-semibold tracking-tight text-foreground">
                 {stat.value}
               </span>
-              <span className="text-xs text-muted md:text-sm">
-                {stat.label}
-              </span>
+              <span className="text-[12px] text-muted">{stat.label}</span>
             </div>
           ))}
         </div>
       </section>
 
       {/* ─── PROBLEM ─── */}
-      <section className="py-24 md:py-32">
-        <div className="mx-auto max-w-6xl px-6">
-          <div className="mx-auto max-w-3xl text-center">
-            <span className="text-sm font-medium uppercase tracking-widest text-accent">
-              The Problem
-            </span>
-            <h2 className="mt-4 text-3xl font-bold tracking-tight md:text-5xl">
-              Customer acquisition is broken
-            </h2>
-            <p className="mt-6 text-lg leading-relaxed text-muted">
-              Businesses are spending more than ever to acquire customers, yet
-              most marketing budgets are wasted on the wrong audiences, wrong
-              channels, and wrong messaging.
-            </p>
-          </div>
+      <section className="relative py-28 md:py-36">
+        <div className="mx-auto max-w-3xl px-6">
+          <p className="text-[11px] font-medium uppercase tracking-[0.15em] text-subtle">
+            The problem
+          </p>
+          <h2 className="mt-4 text-2xl font-semibold tracking-tight md:text-3xl">
+            Most marketing strategies are built on guesswork
+          </h2>
+          <p className="mt-4 max-w-2xl text-[15px] leading-relaxed text-muted">
+            Founders and marketers spend weeks crafting strategies based on
+            intuition. Meanwhile, the data about what actually works — which
+            hooks grab attention, which formats convert, which trends are
+            rising — is sitting in plain sight across competitor content.
+          </p>
 
-          <div className="mt-16 grid gap-6 md:grid-cols-3">
-            <div className="rounded-2xl border border-border bg-surface p-8">
-              <span className="text-4xl font-bold text-red-400">$395</span>
-              <p className="mt-2 text-sm font-medium text-foreground">
-                Average SaaS CAC
-              </p>
-              <p className="mt-2 text-sm text-muted">
-                SaaS companies spend an average of $395 per customer, with some
-                industries exceeding $1,000 per acquisition.
-              </p>
-            </div>
-            <div className="rounded-2xl border border-border bg-surface p-8">
-              <span className="text-4xl font-bold text-amber-400">5:1</span>
-              <p className="mt-2 text-sm font-medium text-foreground">
-                Required LTV:CAC ratio
-              </p>
-              <p className="mt-2 text-sm text-muted">
-                Experts recommend a 5:1 LTV to CAC ratio for healthy growth, yet
-                most startups operate below 3:1 — burning cash faster than they
-                earn it.
-              </p>
-            </div>
-            <div className="rounded-2xl border border-border bg-surface p-8">
-              <span className="text-4xl font-bold text-rose-400">72%</span>
-              <p className="mt-2 text-sm font-medium text-foreground">
-                Startups without market fit
-              </p>
-              <p className="mt-2 text-sm text-muted">
-                The #1 reason startups fail isn&apos;t funding or team —
-                it&apos;s building something nobody wants. Finding market fit
-                first changes everything.
-              </p>
-            </div>
+          <div className="mt-14 grid gap-px overflow-hidden rounded-xl border border-border/30 bg-border/30 md:grid-cols-3">
+            {[
+              {
+                value: "72%",
+                title: "of startups fail from poor market fit",
+                description:
+                  "Not funding, not team — building something nobody wants, marketed in ways nobody responds to.",
+              },
+              {
+                value: "26%",
+                title: "of marketing budget is wasted",
+                description:
+                  "Wrong channels, wrong messaging, wrong timing. Without data, you're spending blind.",
+              },
+              {
+                value: "5x",
+                title: "faster with signal-based strategy",
+                description:
+                  "Teams using competitor intelligence reach market fit dramatically faster than those guessing.",
+              },
+            ].map((card) => (
+              <div key={card.value} className="bg-surface p-7">
+                <span className="font-mono text-2xl font-semibold text-accent-light">
+                  {card.value}
+                </span>
+                <p className="mt-2 text-[13px] font-medium text-foreground">
+                  {card.title}
+                </p>
+                <p className="mt-2 text-[13px] leading-relaxed text-muted">
+                  {card.description}
+                </p>
+              </div>
+            ))}
           </div>
         </div>
       </section>
 
       {/* ─── FEATURES ─── */}
-      <section id="features" className="border-t border-border py-24 md:py-32">
-        <div className="mx-auto max-w-6xl px-6">
-          <div className="mx-auto max-w-3xl text-center">
-            <span className="text-sm font-medium uppercase tracking-widest text-accent">
-              Features
-            </span>
-            <h2 className="mt-4 text-3xl font-bold tracking-tight md:text-5xl">
-              Everything you need to find market fit
-            </h2>
-            <p className="mt-6 text-lg leading-relaxed text-muted">
-              Our AI platform replaces months of expensive research and
-              guesswork with data-driven insights you can act on today.
-            </p>
-          </div>
+      <section id="features" className="relative py-28 md:py-36">
+        <div className="orb orb-accent right-0 top-1/4 h-[400px] w-[500px] translate-x-1/3" />
 
-          <div className="mt-16 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+        <div className="relative mx-auto max-w-3xl px-6">
+          <p className="text-[11px] font-medium uppercase tracking-[0.15em] text-subtle">
+            Features
+          </p>
+          <h2 className="mt-4 text-2xl font-semibold tracking-tight md:text-3xl">
+            Intelligence, not guesswork
+          </h2>
+          <p className="mt-4 max-w-2xl text-[15px] leading-relaxed text-muted">
+            Everything you need to understand what&apos;s working in your market
+            and build a strategy around real signals.
+          </p>
+
+          <div className="mt-14 grid gap-px overflow-hidden rounded-xl border border-border/30 bg-border/30 md:grid-cols-2">
             {FEATURES.map((feature) => (
               <div
-                key={feature.title}
-                className="group rounded-2xl border border-border bg-surface p-8 transition-all hover:border-accent/30 hover:bg-surface-light"
+                key={feature.label}
+                className="bg-surface/80 p-7 transition-colors duration-200 hover:bg-surface-light"
               >
-                <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-accent/10 text-accent-light transition-colors group-hover:bg-accent/20">
-                  {feature.icon}
-                </div>
-                <h3 className="mt-5 text-lg font-semibold">{feature.title}</h3>
-                <p className="mt-2 text-sm leading-relaxed text-muted">
+                <h3 className="text-[14px] font-medium text-foreground">
+                  {feature.label}
+                </h3>
+                <p className="mt-2 text-[13px] leading-relaxed text-muted">
                   {feature.description}
                 </p>
               </div>
@@ -342,236 +247,178 @@ export default function HomePage() {
       </section>
 
       {/* ─── HOW IT WORKS ─── */}
-      <section
-        id="how-it-works"
-        className="border-t border-border bg-surface/30 py-24 md:py-32"
-      >
-        <div className="mx-auto max-w-6xl px-6">
-          <div className="mx-auto max-w-3xl text-center">
-            <span className="text-sm font-medium uppercase tracking-widest text-accent">
-              How It Works
-            </span>
-            <h2 className="mt-4 text-3xl font-bold tracking-tight md:text-5xl">
-              From zero to market fit in 3 steps
-            </h2>
-          </div>
+      <section id="how-it-works" className="relative py-28 md:py-36">
+        <div className="mx-auto max-w-3xl px-6">
+          <p className="text-[11px] font-medium uppercase tracking-[0.15em] text-subtle">
+            How it works
+          </p>
+          <h2 className="mt-4 text-2xl font-semibold tracking-tight md:text-3xl">
+            From raw competitor data to your growth plan
+          </h2>
 
-          <div className="mt-16 grid gap-8 md:grid-cols-3">
+          <div className="mt-14 space-y-0">
             {STEPS.map((step, i) => (
-              <div key={step.step} className="relative">
-                {i < STEPS.length - 1 && (
-                  <div className="absolute right-0 top-10 hidden h-px w-full translate-x-1/2 bg-gradient-to-r from-border to-transparent md:block" />
-                )}
-                <span className="font-mono text-5xl font-bold text-accent/20">
-                  {step.step}
+              <div
+                key={step.num}
+                className={`flex gap-6 py-8 ${
+                  i < STEPS.length - 1 ? "border-b border-border/30" : ""
+                }`}
+              >
+                <span className="font-mono text-[13px] font-medium text-subtle">
+                  {step.num}
                 </span>
-                <h3 className="mt-4 text-xl font-semibold">{step.title}</h3>
-                <p className="mt-3 text-sm leading-relaxed text-muted">
-                  {step.description}
-                </p>
+                <div>
+                  <h3 className="text-[15px] font-medium text-foreground">
+                    {step.title}
+                  </h3>
+                  <p className="mt-2 max-w-lg text-[13px] leading-relaxed text-muted">
+                    {step.description}
+                  </p>
+                </div>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* ─── SAVINGS CALCULATOR ─── */}
-      <section className="border-t border-border py-24 md:py-32">
-        <div className="mx-auto max-w-6xl px-6">
-          <div className="mx-auto max-w-3xl text-center">
-            <span className="text-sm font-medium uppercase tracking-widest text-accent">
-              Your Savings
-            </span>
-            <h2 className="mt-4 text-3xl font-bold tracking-tight md:text-5xl">
-              How much are you overspending?
-            </h2>
-            <p className="mt-6 text-lg leading-relaxed text-muted">
-              Most businesses overspend on customer acquisition by 40-60% due to
-              poor market targeting. Here&apos;s what that looks like at scale.
-            </p>
-          </div>
+      {/* ─── COMPARISON ─── */}
+      <section className="relative py-28 md:py-36">
+        <div className="mx-auto max-w-3xl px-6">
+          <p className="text-[11px] font-medium uppercase tracking-[0.15em] text-subtle">
+            The difference
+          </p>
+          <h2 className="mt-4 text-2xl font-semibold tracking-tight md:text-3xl">
+            Guessing vs. knowing
+          </h2>
 
-          <div className="mx-auto mt-16 max-w-4xl overflow-hidden rounded-2xl border border-border">
-            <div className="grid md:grid-cols-2">
-              <div className="border-b border-border bg-red-950/20 p-8 md:border-b-0 md:border-r">
-                <h3 className="text-sm font-medium uppercase tracking-wider text-red-400">
-                  Without MarketFit AI
-                </h3>
-                <div className="mt-6 space-y-4">
-                  <div className="flex items-center justify-between border-b border-border/50 pb-3">
-                    <span className="text-sm text-muted">Avg. CAC</span>
-                    <span className="font-semibold text-red-400">$536</span>
-                  </div>
-                  <div className="flex items-center justify-between border-b border-border/50 pb-3">
-                    <span className="text-sm text-muted">
-                      100 customers/month
-                    </span>
-                    <span className="font-semibold text-red-400">$53,600</span>
-                  </div>
-                  <div className="flex items-center justify-between border-b border-border/50 pb-3">
-                    <span className="text-sm text-muted">Annual spend</span>
-                    <span className="font-semibold text-red-400">$643,200</span>
-                  </div>
-                  <div className="flex items-center justify-between">
-                    <span className="text-sm text-muted">
-                      Wasted budget (~26%)
-                    </span>
-                    <span className="font-bold text-red-400">$167,232</span>
-                  </div>
-                </div>
-              </div>
+          <div className="mt-14 grid gap-px overflow-hidden rounded-xl border border-border/30 bg-border/30 md:grid-cols-2">
+            <div className="bg-surface p-7">
+              <h3 className="text-[11px] font-medium uppercase tracking-[0.15em] text-subtle">
+                Without MarketFit AI
+              </h3>
+              <ul className="mt-5 space-y-3">
+                {[
+                  "Manually scrolling competitors' feeds",
+                  "Guessing which hooks might work",
+                  "Generic marketing templates",
+                  "Weeks to build a content strategy",
+                  "No data on what actually converts",
+                ].map((item) => (
+                  <li key={item} className="flex items-start gap-2.5 text-[13px] text-muted">
+                    <span className="mt-1.5 h-1 w-1 shrink-0 rounded-full bg-muted/50" />
+                    {item}
+                  </li>
+                ))}
+              </ul>
+            </div>
 
-              <div className="bg-emerald-950/20 p-8">
-                <h3 className="text-sm font-medium uppercase tracking-wider text-emerald-400">
-                  With MarketFit AI
-                </h3>
-                <div className="mt-6 space-y-4">
-                  <div className="flex items-center justify-between border-b border-border/50 pb-3">
-                    <span className="text-sm text-muted">Optimized CAC</span>
-                    <span className="font-semibold text-emerald-400">$214</span>
-                  </div>
-                  <div className="flex items-center justify-between border-b border-border/50 pb-3">
-                    <span className="text-sm text-muted">
-                      100 customers/month
-                    </span>
-                    <span className="font-semibold text-emerald-400">
-                      $21,400
-                    </span>
-                  </div>
-                  <div className="flex items-center justify-between border-b border-border/50 pb-3">
-                    <span className="text-sm text-muted">Annual spend</span>
-                    <span className="font-semibold text-emerald-400">
-                      $256,800
-                    </span>
-                  </div>
-                  <div className="flex items-center justify-between">
-                    <span className="text-sm text-muted">Annual savings</span>
-                    <span className="font-bold text-emerald-400">$386,400</span>
-                  </div>
-                </div>
-              </div>
+            <div className="bg-surface p-7">
+              <h3 className="text-[11px] font-medium uppercase tracking-[0.15em] text-accent-light">
+                With MarketFit AI
+              </h3>
+              <ul className="mt-5 space-y-3">
+                {[
+                  "AI scans thousands of videos automatically",
+                  "Data-backed hook & format detection",
+                  "Playbooks tailored to your niche",
+                  "First insights in under 5 minutes",
+                  "Continuous trend monitoring",
+                ].map((item) => (
+                  <li key={item} className="flex items-start gap-2.5 text-[13px] text-foreground">
+                    <svg
+                      width="12"
+                      height="12"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                      strokeWidth="2.5"
+                      className="mt-0.5 shrink-0 text-accent-light"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M4.5 12.75l6 6 9-13.5"
+                      />
+                    </svg>
+                    {item}
+                  </li>
+                ))}
+              </ul>
             </div>
           </div>
-
-          <p className="mt-6 text-center text-sm text-muted">
-            Based on industry average B2B CAC of $536 and 60% reduction with
-            AI-optimized targeting.
-          </p>
         </div>
       </section>
 
-      {/* ─── PRICING / PRE-ORDER ─── */}
-      <section
-        id="pricing"
-        className="relative border-t border-border py-24 md:py-32"
-      >
-        <div className="pointer-events-none absolute left-1/2 top-0 -translate-x-1/2">
-          <div className="h-[400px] w-[600px] rounded-full bg-accent/8 blur-[100px]" />
-        </div>
+      {/* ─── PRICING ─── */}
+      <section id="pricing" className="relative py-28 md:py-36">
+        <div className="orb orb-accent left-1/2 top-1/2 h-[500px] w-[600px] -translate-x-1/2 -translate-y-1/2" />
 
-        <div className="relative mx-auto max-w-6xl px-6">
-          <div className="mx-auto max-w-3xl text-center">
-            <span className="text-sm font-medium uppercase tracking-widest text-accent">
-              Early Access
-            </span>
-            <h2 className="mt-4 text-3xl font-bold tracking-tight md:text-5xl">
+        <div className="relative mx-auto max-w-3xl px-6">
+          <div className="text-center">
+            <p className="text-[11px] font-medium uppercase tracking-[0.15em] text-subtle">
+              Early access
+            </p>
+            <h2 className="mt-4 text-2xl font-semibold tracking-tight md:text-3xl">
               Be one of the first 100
             </h2>
-            <p className="mx-auto mt-6 max-w-2xl text-lg leading-relaxed text-muted">
-              We&apos;re launching on{" "}
-              <strong className="text-foreground">April 15, 2026</strong> with a
-              limited first cohort. Reserve your spot now and get
-              founding-member benefits when we go live.
+            <p className="mx-auto mt-4 max-w-lg text-[15px] leading-relaxed text-muted">
+              We&apos;re launching{" "}
+              <span className="text-foreground">April 15, 2026</span> with a
+              limited founding cohort. Reserve your spot and lock in lifetime
+              pricing.
             </p>
           </div>
 
-          <div className="mx-auto mt-16 max-w-xl">
-            <div className="gradient-border relative overflow-hidden rounded-2xl border border-transparent bg-surface-light shadow-[0_0_64px_rgba(99,102,241,0.1)]">
+          <div className="mx-auto mt-14 max-w-md">
+            <div className="overflow-hidden rounded-xl border border-border/40">
               {/* Badge */}
-              <div className="flex items-center justify-center gap-2 border-b border-border bg-accent/5 px-6 py-3 text-sm">
-                <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-amber-400" />
-                <span className="text-amber-400 font-medium">
-                  Limited — only 100 spots available
+              <div className="flex items-center justify-center gap-2 border-b border-border/30 bg-surface px-5 py-2.5 text-[12px]">
+                <span className="h-1.5 w-1.5 rounded-full bg-emerald-400" />
+                <span className="text-muted">
+                  73 of 100 spots remaining
                 </span>
               </div>
 
-              <div className="p-8 md:p-10">
+              <div className="bg-surface/60 p-8">
                 {/* Price */}
                 <div className="text-center">
-                  <h3 className="text-lg font-semibold">
+                  <p className="text-[13px] font-medium text-muted">
                     Founding Member Pre-Order
-                  </h3>
-                  <div className="mt-4 flex items-baseline justify-center gap-2">
-                    <span className="text-5xl font-bold md:text-6xl">$10</span>
-                    <span className="text-lg text-muted">one-time</span>
-                  </div>
-                  <p className="mt-3 text-sm text-muted">
-                    Reserve your spot today. Full access on launch day.
                   </p>
-                </div>
-
-                {/* Spots counter */}
-                <div className="mt-8 overflow-hidden rounded-xl border border-border bg-surface p-4">
-                  <div className="flex items-center justify-between text-sm">
-                    <span className="text-muted">Spots remaining</span>
-                    <span className="font-mono font-semibold text-accent-light">
-                      73 / 100
-                    </span>
-                  </div>
-                  <div className="mt-3 h-2 overflow-hidden rounded-full bg-surface-light">
-                    <div
-                      className="h-full rounded-full bg-gradient-to-r from-accent to-accent-light"
-                      style={{ width: "27%" }}
-                    />
+                  <div className="mt-3 flex items-baseline justify-center gap-1.5">
+                    <span className="text-4xl font-semibold tracking-tight">$10</span>
+                    <span className="text-[13px] text-muted">one-time</span>
                   </div>
                 </div>
 
                 {/* CTA */}
-                <PreOrderButton className="mt-8 flex h-13 w-full items-center justify-center rounded-xl bg-accent text-base font-semibold text-white shadow-[0_0_32px_rgba(99,102,241,0.3)] transition-all hover:bg-accent-light hover:shadow-[0_0_48px_rgba(99,102,241,0.4)]">
-                  Reserve My Spot for $10
+                <PreOrderButton className="mt-7 flex h-10 w-full items-center justify-center rounded-lg bg-accent text-[13px] font-medium text-white transition-all duration-200 hover:bg-accent-light glow-sm">
+                  Reserve My Spot
                 </PreOrderButton>
 
                 {/* Launch date */}
-                <div className="mt-6 flex items-center justify-center gap-3 rounded-xl border border-border bg-surface px-5 py-3">
-                  <svg
-                    width="18"
-                    height="18"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                    strokeWidth="1.5"
-                    className="text-accent-light"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5"
-                    />
-                  </svg>
-                  <span className="text-sm">
-                    <span className="text-muted">Launch date:</span>{" "}
-                    <span className="font-semibold">April 15, 2026</span>
-                  </span>
-                </div>
+                <p className="mt-4 text-center text-[12px] text-muted">
+                  Full access on launch day &middot; April 15, 2026
+                </p>
 
-                {/* Features */}
-                <div className="mt-8 border-t border-border pt-8">
-                  <p className="mb-4 text-sm font-medium">
-                    Everything included on launch:
+                {/* Included */}
+                <div className="mt-7 border-t border-border/30 pt-7">
+                  <p className="mb-4 text-[12px] font-medium text-subtle uppercase tracking-[0.1em]">
+                    Everything included
                   </p>
-                  <ul className="grid gap-3 sm:grid-cols-2">
-                    {EARLY_ACCESS_FEATURES.map((feature) => (
+                  <ul className="grid gap-2.5 sm:grid-cols-2">
+                    {INCLUDED.map((item) => (
                       <li
-                        key={feature}
-                        className="flex items-start gap-2.5 text-sm text-muted"
+                        key={item}
+                        className="flex items-start gap-2 text-[13px] text-muted"
                       >
                         <svg
-                          width="16"
-                          height="16"
+                          width="12"
+                          height="12"
                           fill="none"
                           viewBox="0 0 24 24"
                           stroke="currentColor"
-                          strokeWidth="2"
+                          strokeWidth="2.5"
                           className="mt-0.5 shrink-0 text-accent-light"
                         >
                           <path
@@ -580,7 +427,7 @@ export default function HomePage() {
                             d="M4.5 12.75l6 6 9-13.5"
                           />
                         </svg>
-                        {feature}
+                        {item}
                       </li>
                     ))}
                   </ul>
@@ -588,60 +435,33 @@ export default function HomePage() {
               </div>
             </div>
 
-            {/* Trust signals */}
-            <div className="mt-6 flex flex-col items-center gap-2 text-center text-sm text-muted">
-              <div className="flex items-center gap-4">
-                <span className="flex items-center gap-1.5">
-                  <svg
-                    width="14"
-                    height="14"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    className="text-emerald-400"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z"
-                    />
-                  </svg>
-                  Secure payment
-                </span>
-                <span className="text-border">|</span>
-                <span>Full refund if we don&apos;t launch</span>
-                <span className="text-border">|</span>
-                <span>Cancel anytime before launch</span>
-              </div>
-            </div>
+            {/* Trust */}
+            <p className="mt-5 text-center text-[12px] text-subtle">
+              Secure payment via Stripe &middot; Full refund if we don&apos;t
+              launch &middot; Cancel anytime
+            </p>
           </div>
         </div>
       </section>
 
       {/* ─── FINAL CTA ─── */}
-      <section className="relative overflow-hidden border-t border-border py-24 md:py-32">
-        <div className="pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
-          <div className="h-[500px] w-[700px] rounded-full bg-accent/10 blur-[120px]" />
-        </div>
-
-        <div className="relative mx-auto max-w-3xl px-6 text-center">
-          <h2 className="text-3xl font-bold tracking-tight md:text-5xl">
-            Don&apos;t miss the first cohort
+      <section className="relative py-28 md:py-36">
+        <div className="border-t border-border/30" />
+        <div className="mx-auto max-w-2xl px-6 pt-28 text-center md:pt-36">
+          <h2 className="text-2xl font-semibold tracking-tight md:text-3xl">
+            Stop guessing what works
           </h2>
-          <p className="mt-6 text-lg leading-relaxed text-muted">
-            100 founding-member spots. $10 to reserve yours. Full platform
-            access when we launch on{" "}
-            <strong className="text-foreground">April 15, 2026</strong>.
+          <p className="mt-4 text-[15px] leading-relaxed text-muted">
+            100 founding spots. $10 to reserve. Your AI-generated growth
+            playbook is waiting.
           </p>
-          <div className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
-            <PreOrderButton className="inline-flex h-12 items-center justify-center rounded-xl bg-accent px-8 text-sm font-semibold text-white shadow-[0_0_32px_rgba(99,102,241,0.4)] transition-all hover:bg-accent-light hover:shadow-[0_0_48px_rgba(99,102,241,0.5)]">
-              Reserve My Spot — $10
+          <div className="mt-8">
+            <PreOrderButton className="inline-flex h-10 items-center justify-center rounded-lg bg-accent px-5 text-[13px] font-medium text-white transition-all duration-200 hover:bg-accent-light glow-sm">
+              Get Early Access — $10
             </PreOrderButton>
           </div>
-          <p className="mt-4 text-sm text-muted">
-            Secure payment &middot; Full refund if we don&apos;t launch &middot;
-            Cancel anytime
+          <p className="mt-4 text-[12px] text-subtle">
+            Secure payment &middot; Cancel anytime &middot; Launch April 15
           </p>
         </div>
       </section>

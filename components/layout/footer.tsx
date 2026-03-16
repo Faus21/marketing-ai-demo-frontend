@@ -16,28 +16,33 @@ const FOOTER_LINKS: Record<string, FooterLink[]> = {
 
 export default function Footer() {
   return (
-    <footer className="border-t border-border bg-surface">
-      <div className="mx-auto max-w-6xl px-6 py-16">
+    <footer className="border-t border-border/30">
+      <div className="mx-auto max-w-5xl px-6 py-14">
         <div className="grid grid-cols-2 gap-8 md:grid-cols-4">
           <div className="col-span-2">
-            <Link href="/" className="flex items-center gap-2 font-semibold tracking-tight">
-              <span className="flex h-7 w-7 items-center justify-center rounded-md bg-accent text-xs font-bold text-white">
+            <Link href="/" className="flex items-center gap-2.5 text-sm font-medium tracking-tight">
+              <span className="flex h-5 w-5 items-center justify-center rounded bg-accent text-[9px] font-bold text-white">
                 M
               </span>
               MarketFit AI
             </Link>
-            <p className="mt-4 text-sm leading-relaxed text-muted">
-              AI-powered marketing intelligence for businesses seeking product-market fit.
+            <p className="mt-3 max-w-xs text-[13px] leading-relaxed text-muted">
+              AI-powered competitor video analysis and growth playbook generation for founders and marketers.
             </p>
           </div>
 
           {Object.entries(FOOTER_LINKS).map(([category, links]) => (
             <div key={category}>
-              <h4 className="mb-3 text-sm font-medium text-foreground">{category}</h4>
+              <h4 className="mb-3 text-[11px] font-medium uppercase tracking-widest text-subtle">
+                {category}
+              </h4>
               <ul className="flex flex-col gap-2">
                 {links.map((link) => (
                   <li key={link.label}>
-                    <Link href={link.href} className="text-sm text-muted transition-colors hover:text-foreground">
+                    <Link
+                      href={link.href}
+                      className="text-[13px] text-muted transition-colors duration-200 hover:text-foreground"
+                    >
                       {link.label}
                     </Link>
                   </li>
@@ -47,9 +52,9 @@ export default function Footer() {
           ))}
         </div>
 
-        <div className="mt-12 flex items-center justify-center border-t border-border pt-8">
-          <p className="text-sm text-muted">
-            &copy; {new Date().getFullYear()} MarketFit AI. All rights reserved.
+        <div className="mt-12 border-t border-border/30 pt-6">
+          <p className="text-[12px] text-subtle">
+            &copy; {new Date().getFullYear()} MarketFit AI
           </p>
         </div>
       </div>

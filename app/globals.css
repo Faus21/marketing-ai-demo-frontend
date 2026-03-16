@@ -1,14 +1,15 @@
 @import "tailwindcss";
 
 :root {
-  --background: #050508;
-  --foreground: #e4e4e7;
-  --accent: #6366f1;
-  --accent-light: #818cf8;
-  --surface: #0c0c10;
-  --surface-light: #16161d;
-  --border: #1e1e2a;
-  --muted: #71717a;
+  --background: oklch(0.13 0.004 270);
+  --foreground: oklch(0.93 0.005 270);
+  --accent: oklch(0.65 0.15 270);
+  --accent-light: oklch(0.72 0.12 270);
+  --surface: oklch(0.16 0.005 270);
+  --surface-light: oklch(0.19 0.006 270);
+  --border: oklch(0.24 0.008 270);
+  --muted: oklch(0.55 0.01 270);
+  --subtle: oklch(0.35 0.008 270);
 }
 
 @theme inline {
@@ -20,6 +21,7 @@
   --color-surface-light: var(--surface-light);
   --color-border: var(--border);
   --color-muted: var(--muted);
+  --color-subtle: var(--subtle);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 }
@@ -27,59 +29,88 @@
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: var(--font-sans), Arial, Helvetica, sans-serif;
+  font-family: var(--font-sans), system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
-/* Glow effect utility */
-.glow {
-  background: radial-gradient(
-    600px circle at var(--glow-x, 50%) var(--glow-y, 50%),
-    rgba(99, 102, 241, 0.08),
-    transparent 40%
-  );
+/* ── Selection ── */
+::selection {
+  background: oklch(0.65 0.15 270 / 0.3);
+  color: var(--foreground);
 }
 
+/* ── Thin border utility ── */
+.border-thin {
+  border-width: 0.5px;
+}
+
+/* ── Gradient text ── */
 .gradient-text {
-  background: linear-gradient(135deg, #e4e4e7 0%, #6366f1 50%, #a78bfa 100%);
+  background: linear-gradient(
+    135deg,
+    oklch(0.93 0.005 270) 0%,
+    oklch(0.65 0.15 270) 60%,
+    oklch(0.72 0.12 270) 100%
+  );
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
 }
 
-.gradient-border {
-  position: relative;
+/* ── Subtle glow behind elements ── */
+.glow-sm {
+  box-shadow: 0 0 20px -5px oklch(0.65 0.15 270 / 0.15);
 }
 
-.gradient-border::before {
-  content: "";
+.glow-md {
+  box-shadow: 0 0 40px -10px oklch(0.65 0.15 270 / 0.15);
+}
+
+/* ── Ambient orb (background decoration) ── */
+.orb {
   position: absolute;
-  inset: 0;
-  border-radius: inherit;
-  padding: 1px;
-  background: linear-gradient(135deg, #6366f1, #a78bfa, #6366f1);
-  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-  mask-composite: exclude;
-  -webkit-mask-composite: xor;
+  border-radius: 9999px;
   pointer-events: none;
+  filter: blur(140px);
   opacity: 0.5;
 }
 
-/* Noise texture overlay */
+.orb-accent {
+  background: oklch(0.65 0.15 270 / 0.12);
+}
+
+.orb-muted {
+  background: oklch(0.55 0.08 270 / 0.08);
+}
+
+/* ── Noise texture ── */
 .noise::after {
   content: "";
   position: fixed;
   inset: 0;
-  opacity: 0.03;
+  opacity: 0.018;
   background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
   pointer-events: none;
   z-index: 50;
 }
 
-/* Dialog animation */
+/* ── Fade-in animation ── */
 @keyframes fade-in {
   from {
     opacity: 0;
-    transform: scale(0.95) translateY(8px);
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fade-in-scale {
+  from {
+    opacity: 0;
+    transform: scale(0.97) translateY(6px);
   }
   to {
     opacity: 1;
@@ -87,7 +118,13 @@ body {
   }
 }
 
-/* Custom checkbox checkmark */
+/* ── Subtle dot grid ── */
+.dot-grid {
+  background-image: radial-gradient(circle, oklch(0.55 0.01 270 / 0.12) 0.5px, transparent 0.5px);
+  background-size: 24px 24px;
+}
+
+/* ── Custom checkbox ── */
 input[type="checkbox"]:checked {
   background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 16 16' fill='white' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M12.207 4.793a1 1 0 010 1.414l-5 5a1 1 0 01-1.414 0l-2-2a1 1 0 011.414-1.414L6.5 9.086l4.293-4.293a1 1 0 011.414 0z'/%3E%3C/svg%3E");
   background-size: 100% 100%;
@@ -95,7 +132,13 @@ input[type="checkbox"]:checked {
   background-repeat: no-repeat;
 }
 
-/* Smooth scroll */
+/* ── Smooth scroll ── */
 html {
   scroll-behavior: smooth;
+}
+
+/* ── Focus visible ── */
+:focus-visible {
+  outline: 1.5px solid oklch(0.65 0.15 270 / 0.5);
+  outline-offset: 2px;
 }

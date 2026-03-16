@@ -9,7 +9,7 @@ export default function MarketingLayout({
   return (
     <>
       <Header />
-      <main className="pt-16">{children}</main>
+      <main className="overflow-x-hidden pt-16">{children}</main>
       <Footer />
     </>
   );

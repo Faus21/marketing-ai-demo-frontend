@@ -3,7 +3,8 @@
     "allow": [
       "Bash(cd \"D:/Projects/marketing-ai-demo-frontend\" && ./node_modules/.bin/next build 2>&1 | tail -40)",
       "Bash(cd \"D:/Projects/marketing-ai-demo-frontend\" && ./node_modules/.bin/next build 2>&1 | tail -20)",
-      "Bash(cd D:/Projects/marketing-ai-demo-frontend && npm run build 2>&1 | tail -20)"
+      "Bash(cd D:/Projects/marketing-ai-demo-frontend && npm run build 2>&1 | tail -20)",
+      "Bash(npm run:*)"
     ]
   }
 }
