@@ -391,10 +391,12 @@ function generatePDF(data: AnalysisData) {
     doc.setFontSize(9.5);
     doc.setFont("helvetica", "normal");
     doc.setTextColor(...colors.dark);
-    const lines = doc.splitTextToSize(text, contentWidth - indent);
+    const lines: string[] = doc.splitTextToSize(text, contentWidth - indent);
     checkPage(lines.length * 4.5);
-    doc.text(lines, margin + indent, y);
-    y += lines.length * 4.5;
+    lines.forEach((line) => {
+      doc.text(line, margin + indent, y);
+      y += 4.5;
+    });
   }
 
   // Title
@@ -458,10 +460,13 @@ function generatePDF(data: AnalysisData) {
     doc.setFont("helvetica", "normal");
     doc.setTextColor(...colors.dark);
     doc.setFillColor(...colors.bg);
-    checkPage(10);
-    doc.roundedRect(margin, y - 3, contentWidth, 9, 2, 2, "F");
-    doc.text(demos.join("   |   "), margin + 4, y + 2);
-    y += 12;
+    const demoText = demos.join("   |   ");
+    const demoLines = doc.splitTextToSize(demoText, contentWidth - 8);
+    const demoHeight = demoLines.length * 4.5 + 4;
+    checkPage(demoHeight + 4);
+    doc.roundedRect(margin, y - 3, contentWidth, demoHeight, 2, 2, "F");
+    doc.text(demoLines, margin + 4, y + 2);
+    y += demoHeight + 4;
 
     // Confidence
     label("Confidence");
