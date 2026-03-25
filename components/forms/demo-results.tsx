@@ -230,7 +230,7 @@ function ChannelIcon({ name }: { name: string }) {
 
 /* ─── Helpers ─── */
 
-function ScoreRing({ value, max = 5, size = 72 }: { value: number; max?: number; size?: number }) {
+function ScoreRing({ value, max = 100, size = 72 }: { value: number; max?: number; size?: number }) {
   const pct = (value / max) * 100;
   const strokeWidth = 4;
   const radius = (size - strokeWidth) / 2;
@@ -436,7 +436,7 @@ function generatePDF(data: AnalysisData) {
     doc.setFontSize(14);
     doc.setFont("helvetica", "bold");
     doc.setTextColor(...colors.accent);
-    const display = name === "Validation Rounds" ? String(val) : `${val}/5`;
+    const display = name === "Validation Rounds" ? String(val) : `${val}/100`;
     doc.text(display, x + (colW - 3) / 2, y + 14, { align: "center" });
   });
   y += 26;
@@ -501,8 +501,8 @@ function generatePDF(data: AnalysisData) {
     doc.text(seg.channel_platforms.join(",  "), margin, y);
     y += 7;
 
-    // To Validate
-    label("To Validate");
+    // Key Assumptions
+    label("Key Assumptions");
     seg.assumptions.forEach((a, i) => {
       checkPage(6);
       doc.setFontSize(9);
@@ -574,7 +574,8 @@ export default function DemoResults() {
     );
   }
 
-  const { segments, notes, quality } = data;
+  const { notes, quality } = data;
+  const segments = [...data.segments].sort((a, b) => b.confidence - a.confidence);
 
   return (
     <div className="relative py-28 md:py-36">
@@ -803,9 +804,9 @@ export default function DemoResults() {
                   </div>
                 </div>
 
-                {/* Assumptions — "To Validate" */}
+                {/* Assumptions — "Key Assumptions" */}
                 <div className="rounded-xl border border-border/30 bg-surface/50 px-5 py-4">
-                  <SectionLabel icon={<IconShield />} label="To Validate" />
+                  <SectionLabel icon={<IconShield />} label="Key Assumptions" />
                   <div className="grid gap-2.5 sm:grid-cols-2">
                     {segment.assumptions.map((a, i) => (
                       <div
