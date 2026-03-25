@@ -5,11 +5,11 @@
   --foreground: oklch(0.93 0.005 270);
   --accent: oklch(0.65 0.15 270);
   --accent-light: oklch(0.72 0.12 270);
-  --surface: oklch(0.16 0.005 270);
-  --surface-light: oklch(0.19 0.006 270);
-  --border: oklch(0.24 0.008 270);
-  --muted: oklch(0.55 0.01 270);
-  --subtle: oklch(0.35 0.008 270);
+  --surface: oklch(0.17 0.005 270);
+  --surface-light: oklch(0.22 0.006 270);
+  --border: oklch(0.30 0.008 270);
+  --muted: oklch(0.65 0.01 270);
+  --subtle: oklch(0.45 0.008 270);
 }
 
 @theme inline {

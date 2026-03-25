@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 
 const BUSINESS_MODELS = ["B2B", "B2C", "Hybrid"];
 const BUSINESS_SIZES = ["small", "medium", "large"];
@@ -71,7 +72,7 @@ function InputField({
         value={value}
         onChange={(e) => onChange(e.target.value)}
         placeholder={placeholder}
-        className="h-10 w-full rounded-lg border border-border/40 bg-surface px-3 text-[13px] text-foreground placeholder:text-muted/60 transition-colors duration-150 focus:border-accent/50 focus:outline-none"
+        className="h-10 w-full rounded-lg border border-border/40 bg-surface px-3 text-[13px] text-foreground placeholder:text-muted transition-colors duration-150 focus:border-accent/50 focus:outline-none"
       />
     </label>
   );
@@ -129,7 +130,7 @@ function TextareaField({
         onChange={(e) => onChange(e.target.value)}
         placeholder={placeholder}
         rows={4}
-        className="w-full rounded-lg border border-border/40 bg-surface px-3 py-2.5 text-[13px] leading-relaxed text-foreground placeholder:text-muted/60 transition-colors duration-150 focus:border-accent/50 focus:outline-none resize-y"
+        className="w-full rounded-lg border border-border/40 bg-surface px-3 py-2.5 text-[13px] leading-relaxed text-foreground placeholder:text-muted transition-colors duration-150 focus:border-accent/50 focus:outline-none resize-y"
       />
     </label>
   );
@@ -138,6 +139,9 @@ function TextareaField({
 export default function DemoEntryForm() {
   const [data, setData] = useState<FormData>(INITIAL_DATA);
   const [submitted, setSubmitted] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const router = useRouter();
 
   function updateProfile<K extends keyof FormData["business_profile"]>(
     key: K,
@@ -159,48 +163,30 @@ export default function DemoEntryForm() {
     }));
   }
 
-  function handleSubmit(e: React.FormEvent) {
+  async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
-    // For demo purposes, log the JSON and show confirmation
-    console.log(JSON.stringify(data, null, 2));
-    setSubmitted(true);
-  }
+    setLoading(true);
+    setError(null);
 
-  if (submitted) {
-    return (
-      <div className="rounded-xl border border-border/40 bg-surface/60 p-10 text-center">
-        <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full border border-emerald-500/20 bg-emerald-500/10">
-          <svg
-            width="20"
-            height="20"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-            strokeWidth="2.5"
-            className="text-emerald-400"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="M4.5 12.75l6 6 9-13.5"
-            />
-          </svg>
-        </div>
-        <h3 className="text-lg font-semibold text-foreground">
-          Business profile submitted
-        </h3>
-        <p className="mt-2 text-[13px] text-muted">
-          Your information has been received. The AI analysis will begin
-          shortly.
-        </p>
-        <button
-          onClick={() => setSubmitted(false)}
-          className="mt-6 inline-flex h-9 items-center rounded-lg border border-border/40 px-4 text-[13px] text-muted transition-colors duration-150 hover:border-border hover:text-foreground"
-        >
-          Submit another
-        </button>
-      </div>
-    );
+    try {
+      const res = await fetch("http://localhost:8000/api/v1/generate-audience", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data),
+      });
+
+      if (!res.ok) {
+        throw new Error(`API error: ${res.status} ${res.statusText}`);
+      }
+
+      const result = await res.json();
+      sessionStorage.setItem("demo-results", JSON.stringify(result));
+      router.push("/demo/results");
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Something went wrong. Please try again.");
+    } finally {
+      setLoading(false);
+    }
   }
 
   return (
@@ -321,20 +307,35 @@ export default function DemoEntryForm() {
         </div>
       </section>
 
+      {/* ─── Error ─── */}
+      {error && (
+        <div className="rounded-lg border border-red-500/20 bg-red-500/10 px-4 py-3 text-[13px] text-red-400">
+          {error}
+        </div>
+      )}
+
       {/* ─── Submit ─── */}
       <div className="flex items-center justify-end gap-4">
         <button
           type="button"
           onClick={() => setData(INITIAL_DATA)}
-          className="inline-flex h-10 items-center rounded-lg border border-border/40 px-5 text-[13px] text-muted transition-colors duration-150 hover:border-border hover:text-foreground"
+          disabled={loading}
+          className="inline-flex h-10 items-center rounded-lg border border-border/40 px-5 text-[13px] text-muted transition-colors duration-150 hover:border-border hover:text-foreground disabled:opacity-50"
         >
           Reset
         </button>
         <button
           type="submit"
-          className="inline-flex h-10 items-center rounded-lg bg-accent px-6 text-[13px] font-medium text-white transition-all duration-200 hover:bg-accent-light glow-sm"
+          disabled={loading}
+          className="inline-flex h-10 items-center gap-2 rounded-lg bg-accent px-6 text-[13px] font-medium text-white transition-all duration-200 hover:bg-accent-light glow-sm disabled:opacity-50"
         >
-          Start AI Analysis
+          {loading && (
+            <svg className="h-4 w-4 animate-spin" viewBox="0 0 24 24" fill="none">
+              <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+              <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
+            </svg>
+          )}
+          {loading ? "Analyzing..." : "Start AI Analysis"}
         </button>
       </div>
     </form>

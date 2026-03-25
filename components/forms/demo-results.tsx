@@ -1,6 +1,9 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import jsPDF from "jspdf";
 
 /* ─── Types ─── */
 
@@ -35,75 +38,6 @@ type AnalysisData = {
   quality: Quality;
 };
 
-/* ─── Demo data ─── */
-
-const DATA: AnalysisData = {
-  segments: [
-    {
-      name: "Young working professionals",
-      country: "Poland",
-      city: "Warsaw",
-      language: "Polish",
-      gender: "female",
-      age_min: 23,
-      age_max: 29,
-      income_tier: "mid",
-      interests: [
-        "quick, lunchtime or after-work beauty appointments",
-        "natural-looking lashes/brows",
-        "time-efficient self-care",
-        "discovering trendy but low-maintenance treatments",
-      ],
-      problem_it_solves:
-        "Offers fast, natural-looking lash/brow/facial services that fit into a busy workday and make them look polished for events.",
-      why_now:
-        "Has an upcoming work event or weekend plans and needs a quick, weekday appointment to look refreshed.",
-      channel_platforms: ["Instagram", "Google Maps", "Email"],
-      confidence: 0.7,
-      assumptions: [
-        "prioritise convenience and speed over lowest price",
-        "likely to respond to short-form visual content and limited-time weekday offers",
-        "bookings can be converted if appointment options/prices are visible without DM",
-      ],
-    },
-    {
-      name: "Busy parents / return-to-work mothers",
-      country: "Poland",
-      city: "Warsaw",
-      language: "Polish",
-      gender: "female",
-      age_min: 30,
-      age_max: 38,
-      income_tier: "mid",
-      interests: [
-        "low-maintenance, long-lasting beauty",
-        "appointment reliability and clear pricing",
-        "weekday daytime slots",
-        "trusted, clean salon environment",
-      ],
-      problem_it_solves:
-        "Provides dependable, natural-looking treatments scheduled during weekday hours so they can maintain a polished look with minimal upkeep.",
-      why_now:
-        "Childcare/school schedule or a return-to-work moment has freed weekday time, making a midweek appointment possible.",
-      channel_platforms: ["Facebook", "Google Maps", "Email"],
-      confidence: 0.65,
-      assumptions: [
-        "value clear pricing and easy rebooking over browsing in DMs",
-        "more responsive to direct email reminders and community recommendations",
-        "prefer weekday daytime slots and will fill them if promoted",
-      ],
-    },
-  ],
-  notes:
-    "No segments include Google Search/Maps because the salon said they currently don't use them; testing automated booking links and clear public pricing is a priority to reduce DM drop-off. Limited staff/time suggests prioritise channels with low messaging overhead (scheduled posts, email automation, and in-salon offline promotions).",
-  quality: {
-    overall_score: 4.71,
-    business_fit_score: 5,
-    goal_fit_score: 5,
-    channel_fit_score: 4,
-    validation_rounds: 2,
-  },
-};
 
 /* ─── Icons ─── */
 
@@ -350,7 +284,7 @@ function ConfidenceMeter({ value }: { value: number }) {
 
   return (
     <div className="flex items-center gap-3">
-      <div className="h-1.5 flex-1 rounded-full bg-border/40 overflow-hidden">
+      <div className="h-1.5 flex-1 rounded-full bg-border/50 overflow-hidden">
         <div
           className={`h-full rounded-full transition-all duration-500 ${barColor}`}
           style={{ width: `${pct}%` }}
@@ -377,7 +311,7 @@ function ChannelTag({ name }: { name: string }) {
 function SectionLabel({ icon, label }: { icon: React.ReactNode; label: string }) {
   return (
     <div className="flex items-center gap-2 mb-3">
-      <span className="text-accent-light/70">{icon}</span>
+      <span className="text-accent-light">{icon}</span>
       <p className="text-[11px] font-semibold uppercase tracking-[0.15em] text-subtle">
         {label}
       </p>
@@ -407,10 +341,240 @@ function IncomeBadge({ tier }: { tier: string }) {
   );
 }
 
+/* ─── PDF Generation ─── */
+
+function generatePDF(data: AnalysisData) {
+  const doc = new jsPDF({ unit: "mm", format: "a4" });
+  const pageWidth = doc.internal.pageSize.getWidth();
+  const margin = 18;
+  const contentWidth = pageWidth - margin * 2;
+  let y = 20;
+
+  const colors = {
+    accent: [124, 58, 237] as [number, number, number],
+    dark: [20, 20, 30] as [number, number, number],
+    muted: [120, 120, 140] as [number, number, number],
+    light: [200, 200, 210] as [number, number, number],
+    bg: [245, 245, 250] as [number, number, number],
+    white: [255, 255, 255] as [number, number, number],
+  };
+
+  function checkPage(needed: number) {
+    if (y + needed > doc.internal.pageSize.getHeight() - 15) {
+      doc.addPage();
+      y = 20;
+    }
+  }
+
+  function sectionTitle(text: string) {
+    checkPage(14);
+    doc.setFontSize(11);
+    doc.setFont("helvetica", "bold");
+    doc.setTextColor(...colors.accent);
+    doc.text(text.toUpperCase(), margin, y);
+    y += 2;
+    doc.setDrawColor(...colors.accent);
+    doc.setLineWidth(0.5);
+    doc.line(margin, y, margin + contentWidth, y);
+    y += 7;
+  }
+
+  function label(text: string) {
+    doc.setFontSize(8);
+    doc.setFont("helvetica", "bold");
+    doc.setTextColor(...colors.muted);
+    doc.text(text.toUpperCase(), margin, y);
+    y += 4;
+  }
+
+  function bodyText(text: string, indent = 0) {
+    doc.setFontSize(9.5);
+    doc.setFont("helvetica", "normal");
+    doc.setTextColor(...colors.dark);
+    const lines = doc.splitTextToSize(text, contentWidth - indent);
+    checkPage(lines.length * 4.5);
+    doc.text(lines, margin + indent, y);
+    y += lines.length * 4.5;
+  }
+
+  // Title
+  doc.setFontSize(22);
+  doc.setFont("helvetica", "bold");
+  doc.setTextColor(...colors.dark);
+  doc.text("Audience Segment Analysis", margin, y);
+  y += 8;
+
+  doc.setFontSize(10);
+  doc.setFont("helvetica", "normal");
+  doc.setTextColor(...colors.muted);
+  doc.text(
+    `${data.segments.length} target segments identified  •  Generated ${new Date().toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" })}`,
+    margin,
+    y
+  );
+  y += 12;
+
+  // Quality Scores
+  sectionTitle("Quality Scores");
+  const scores = [
+    ["Overall Score", data.quality.overall_score],
+    ["Business Fit", data.quality.business_fit_score],
+    ["Goal Fit", data.quality.goal_fit_score],
+    ["Channel Fit", data.quality.channel_fit_score],
+    ["Validation Rounds", data.quality.validation_rounds],
+  ] as const;
+
+  const colW = contentWidth / scores.length;
+  scores.forEach(([name, val], i) => {
+    const x = margin + i * colW;
+    doc.setFillColor(...colors.bg);
+    doc.roundedRect(x, y, colW - 3, 18, 2, 2, "F");
+    doc.setFontSize(8);
+    doc.setFont("helvetica", "bold");
+    doc.setTextColor(...colors.muted);
+    doc.text(name, x + (colW - 3) / 2, y + 6, { align: "center" });
+    doc.setFontSize(14);
+    doc.setFont("helvetica", "bold");
+    doc.setTextColor(...colors.accent);
+    const display = name === "Validation Rounds" ? String(val) : `${val}/5`;
+    doc.text(display, x + (colW - 3) / 2, y + 14, { align: "center" });
+  });
+  y += 26;
+
+  // Segments
+  data.segments.forEach((seg, idx) => {
+    checkPage(60);
+    sectionTitle(`Segment ${idx + 1}: ${seg.name}`);
+
+    // Demographics row
+    const demos = [
+      `Gender: ${seg.gender}`,
+      `Age: ${seg.age_min}–${seg.age_max}`,
+      `Income: ${seg.income_tier}`,
+      `Location: ${seg.city}, ${seg.country}`,
+      `Language: ${seg.language}`,
+    ];
+    doc.setFontSize(9);
+    doc.setFont("helvetica", "normal");
+    doc.setTextColor(...colors.dark);
+    doc.setFillColor(...colors.bg);
+    checkPage(10);
+    doc.roundedRect(margin, y - 3, contentWidth, 9, 2, 2, "F");
+    doc.text(demos.join("   |   "), margin + 4, y + 2);
+    y += 12;
+
+    // Confidence
+    label("Confidence");
+    doc.setFontSize(10);
+    doc.setFont("helvetica", "bold");
+    doc.setTextColor(...colors.accent);
+    doc.text(`${Math.round(seg.confidence * 100)}%`, margin, y);
+    y += 7;
+
+    // Problem It Solves
+    label("Problem It Solves");
+    bodyText(seg.problem_it_solves);
+    y += 2;
+
+    // Why Now
+    label("Why Now");
+    bodyText(seg.why_now);
+    y += 2;
+
+    // Interests
+    label("Interests");
+    seg.interests.forEach((interest) => {
+      checkPage(6);
+      doc.setFontSize(9);
+      doc.setFont("helvetica", "normal");
+      doc.setTextColor(...colors.dark);
+      doc.text(`•  ${interest}`, margin + 2, y);
+      y += 5;
+    });
+    y += 2;
+
+    // Channels
+    label("Recommended Channels");
+    doc.setFontSize(9.5);
+    doc.setFont("helvetica", "normal");
+    doc.setTextColor(...colors.dark);
+    doc.text(seg.channel_platforms.join(",  "), margin, y);
+    y += 7;
+
+    // Assumptions
+    label("Key Assumptions");
+    seg.assumptions.forEach((a) => {
+      checkPage(6);
+      doc.setFontSize(9);
+      doc.setFont("helvetica", "normal");
+      doc.setTextColor(...colors.dark);
+      const lines = doc.splitTextToSize(`⚠  ${a}`, contentWidth - 4);
+      doc.text(lines, margin + 2, y);
+      y += lines.length * 4.5;
+    });
+    y += 6;
+  });
+
+  // Notes
+  if (data.notes) {
+    sectionTitle("Analyst Notes");
+    bodyText(data.notes);
+  }
+
+  doc.save("audience-segment-analysis.pdf");
+}
+
 /* ─── Component ─── */
 
 export default function DemoResults() {
-  const { segments, notes, quality } = DATA;
+  const router = useRouter();
+  const [data, setData] = useState<AnalysisData | null>(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const stored = sessionStorage.getItem("demo-results");
+    if (stored) {
+      try {
+        setData(JSON.parse(stored));
+      } catch {
+        setData(null);
+      }
+    }
+    setLoading(false);
+  }, []);
+
+  if (loading) {
+    return (
+      <div className="relative flex min-h-[60vh] items-center justify-center py-28 md:py-36">
+        <div className="flex flex-col items-center gap-4">
+          <svg className="h-8 w-8 animate-spin text-accent" viewBox="0 0 24 24" fill="none">
+            <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+            <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
+          </svg>
+          <p className="text-[13px] text-muted">Loading results...</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (!data) {
+    return (
+      <div className="relative flex min-h-[60vh] items-center justify-center py-28 md:py-36">
+        <div className="flex flex-col items-center gap-4 text-center">
+          <p className="text-[15px] font-semibold text-foreground">No results found</p>
+          <p className="text-[13px] text-muted">Please submit your business profile first.</p>
+          <button
+            onClick={() => router.push("/demo")}
+            className="mt-2 inline-flex h-10 items-center rounded-lg bg-accent px-6 text-[13px] font-medium text-white transition-all duration-200 hover:bg-accent-light glow-sm"
+          >
+            Go to Demo Form
+          </button>
+        </div>
+      </div>
+    );
+  }
+
+  const { segments, notes, quality } = data;
 
   return (
     <div className="relative py-28 md:py-36">
@@ -547,10 +711,10 @@ export default function DemoResults() {
           {segments.map((segment, idx) => (
             <div
               key={segment.name}
-              className="overflow-hidden rounded-2xl border border-border/30 bg-surface/20"
+              className="overflow-hidden rounded-2xl border border-border/40 bg-surface/30"
             >
               {/* Segment header */}
-              <div className="flex items-center justify-between gap-4 border-b border-border/30 bg-surface px-6 py-5 sm:px-8">
+              <div className="flex items-center justify-between gap-4 border-b border-border/40 bg-surface px-6 py-5 sm:px-8">
                 <div className="flex items-center gap-4">
                   <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-accent/10 border border-accent/20 font-mono text-[14px] font-bold text-accent-light">
                     {idx + 1}
@@ -583,7 +747,7 @@ export default function DemoResults() {
                     { icon: <IconMapPin />, label: "Location", value: `${segment.city}, ${segment.country}` },
                     { icon: <IconGlobe />, label: "Language", value: segment.language },
                   ].map((item) => (
-                    <div key={item.label} className="rounded-lg border border-border/20 bg-surface/40 px-4 py-3">
+                    <div key={item.label} className="rounded-lg border border-border/30 bg-surface/50 px-4 py-3">
                       <div className="flex items-center gap-1.5 mb-1.5">
                         <span className="text-subtle">{item.icon}</span>
                         <p className="text-[10px] font-semibold uppercase tracking-[0.12em] text-subtle">
@@ -599,30 +763,30 @@ export default function DemoResults() {
 
                 {/* Problem & Why now */}
                 <div className="mb-6 grid gap-4 md:grid-cols-2">
-                  <div className="rounded-xl border border-border/20 bg-surface/40 px-5 py-4">
+                  <div className="rounded-xl border border-border/30 bg-surface/50 px-5 py-4">
                     <SectionLabel icon={<IconLightbulb />} label="Problem It Solves" />
-                    <p className="text-[13px] leading-relaxed text-muted">
+                    <p className="text-[13px] leading-relaxed text-foreground/80">
                       {segment.problem_it_solves}
                     </p>
                   </div>
-                  <div className="rounded-xl border border-border/20 bg-surface/40 px-5 py-4">
+                  <div className="rounded-xl border border-border/30 bg-surface/50 px-5 py-4">
                     <SectionLabel icon={<IconBolt />} label="Why Now" />
-                    <p className="text-[13px] leading-relaxed text-muted">
+                    <p className="text-[13px] leading-relaxed text-foreground/80">
                       {segment.why_now}
                     </p>
                   </div>
                 </div>
 
                 {/* Interests */}
-                <div className="mb-6 rounded-xl border border-border/20 bg-surface/40 px-5 py-4">
+                <div className="mb-6 rounded-xl border border-border/30 bg-surface/50 px-5 py-4">
                   <SectionLabel icon={<IconHeart />} label="Interests" />
                   <ul className="grid gap-2.5 sm:grid-cols-2">
                     {segment.interests.map((interest) => (
                       <li
                         key={interest}
-                        className="flex items-start gap-2.5 text-[13px] text-muted"
+                        className="flex items-start gap-2.5 text-[13px] text-foreground/80"
                       >
-                        <IconCheck className="mt-0.5 shrink-0 text-accent-light/60" />
+                        <IconCheck className="mt-0.5 shrink-0 text-accent-light" />
                         {interest}
                       </li>
                     ))}
@@ -630,7 +794,7 @@ export default function DemoResults() {
                 </div>
 
                 {/* Channels */}
-                <div className="mb-6 rounded-xl border border-border/20 bg-surface/40 px-5 py-4">
+                <div className="mb-6 rounded-xl border border-border/30 bg-surface/50 px-5 py-4">
                   <SectionLabel icon={<IconChannel />} label="Recommended Channels" />
                   <div className="flex flex-wrap gap-2">
                     {segment.channel_platforms.map((ch) => (
@@ -646,9 +810,9 @@ export default function DemoResults() {
                     {segment.assumptions.map((a) => (
                       <li
                         key={a}
-                        className="flex items-start gap-2.5 text-[13px] text-muted"
+                        className="flex items-start gap-2.5 text-[13px] text-foreground/80"
                       >
-                        <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-amber-400/50" />
+                        <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-amber-400/70" />
                         {a}
                       </li>
                     ))}
@@ -661,22 +825,16 @@ export default function DemoResults() {
 
         {/* ─── Notes ─── */}
         <div className="mt-10 rounded-2xl border border-border/30 bg-surface/60 px-6 py-5 sm:px-8">
-          <SectionLabel icon={<IconNote className="text-accent-light/70" />} label="Analyst Notes" />
-          <p className="text-[13px] leading-relaxed text-muted">{notes}</p>
+          <SectionLabel icon={<IconNote className="text-accent-light" />} label="Analyst Notes" />
+          <p className="text-[13px] leading-relaxed text-foreground/80">{notes}</p>
         </div>
 
         {/* ─── Actions ─── */}
-        <div className="mt-10 flex items-center justify-between">
-          <Link
-            href="/demo"
-            className="inline-flex h-10 items-center gap-2 rounded-lg border border-border/40 px-5 text-[13px] text-muted transition-colors duration-150 hover:border-border hover:text-foreground"
+        <div className="mt-10 flex items-center justify-end">
+          <button
+            onClick={() => generatePDF(data)}
+            className="inline-flex h-10 items-center gap-2 rounded-lg bg-accent px-6 text-[13px] font-medium text-white transition-all duration-200 hover:bg-accent-light glow-sm"
           >
-            <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
-              <path strokeLinecap="round" strokeLinejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0013.803-3.7M4.031 9.865a8.25 8.25 0 0113.803-3.7l3.181 3.182" />
-            </svg>
-            Run Another Analysis
-          </Link>
-          <button className="inline-flex h-10 items-center gap-2 rounded-lg bg-accent px-6 text-[13px] font-medium text-white transition-all duration-200 hover:bg-accent-light glow-sm">
             <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
               <path strokeLinecap="round" strokeLinejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5M16.5 12L12 16.5m0 0L7.5 12m4.5 4.5V3" />
             </svg>
