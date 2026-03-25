@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import PreOrderButton from "@/components/ui/pre-order-button";
+import DemoEntryForm from "@/components/forms/demo-entry-form";
 
 export const metadata: Metadata = {
   title: "MarketFit AI — Reverse-Engineer Viral Growth",
@@ -110,10 +111,10 @@ export default function HomePage() {
               Get Early Access — $10
             </PreOrderButton>
             <a
-              href="#how-it-works"
-              className="inline-flex h-10 items-center gap-1.5 px-4 text-[13px] text-muted transition-colors duration-200 hover:text-foreground"
+              href="#demo"
+              className="inline-flex h-10 items-center gap-1.5 rounded-lg border border-border/40 px-5 text-[13px] font-medium text-foreground transition-colors duration-200 hover:border-accent/50 hover:text-accent-light"
             >
-              How it works
+              Try Free Demo
               <svg
                 width="12"
                 height="12"
@@ -277,6 +278,30 @@ export default function HomePage() {
                 </div>
               </div>
             ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ─── DEMO ─── */}
+      <section id="demo" className="relative py-28 md:py-36">
+        <div className="orb orb-accent left-1/4 top-0 h-[400px] w-[500px] -translate-x-1/2" />
+
+        <div className="relative mx-auto max-w-3xl px-6">
+          <p className="text-[11px] font-medium uppercase tracking-[0.15em] text-subtle">
+            Try it free
+          </p>
+          <h2 className="mt-4 text-2xl font-semibold tracking-tight md:text-3xl">
+            See it in action with your business
+          </h2>
+          <p className="mt-4 max-w-2xl text-[15px] leading-relaxed text-muted">
+            Fill in your business details and get a free AI-powered audience
+            analysis — no signup required. You get{" "}
+            <span className="text-foreground font-medium">2 free analyses</span>{" "}
+            to explore the platform.
+          </p>
+
+          <div className="mt-12">
+            <DemoEntryForm embedded />
           </div>
         </div>
       </section>

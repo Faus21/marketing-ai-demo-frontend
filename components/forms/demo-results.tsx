@@ -501,14 +501,14 @@ function generatePDF(data: AnalysisData) {
     doc.text(seg.channel_platforms.join(",  "), margin, y);
     y += 7;
 
-    // Assumptions
-    label("Key Assumptions");
-    seg.assumptions.forEach((a) => {
+    // To Validate
+    label("To Validate");
+    seg.assumptions.forEach((a, i) => {
       checkPage(6);
       doc.setFontSize(9);
       doc.setFont("helvetica", "normal");
       doc.setTextColor(...colors.dark);
-      const lines = doc.splitTextToSize(`⚠  ${a}`, contentWidth - 4);
+      const lines = doc.splitTextToSize(`${i + 1}.  ${a}`, contentWidth - 4);
       doc.text(lines, margin + 2, y);
       y += lines.length * 4.5;
     });
@@ -803,20 +803,24 @@ export default function DemoResults() {
                   </div>
                 </div>
 
-                {/* Assumptions */}
-                <div className="rounded-xl border border-amber-500/10 bg-amber-500/5 px-5 py-4">
-                  <SectionLabel icon={<IconWarning className="text-amber-400/70" />} label="Key Assumptions" />
-                  <ul className="space-y-2.5">
-                    {segment.assumptions.map((a) => (
-                      <li
+                {/* Assumptions — "To Validate" */}
+                <div className="rounded-xl border border-border/30 bg-surface/50 px-5 py-4">
+                  <SectionLabel icon={<IconShield />} label="To Validate" />
+                  <div className="grid gap-2.5 sm:grid-cols-2">
+                    {segment.assumptions.map((a, i) => (
+                      <div
                         key={a}
-                        className="flex items-start gap-2.5 text-[13px] text-foreground/80"
+                        className="flex items-start gap-3 rounded-lg border border-border/30 bg-surface-light/30 px-4 py-3"
                       >
-                        <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-amber-400/70" />
-                        {a}
-                      </li>
+                        <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-md bg-accent/10 font-mono text-[10px] font-bold text-accent-light">
+                          {i + 1}
+                        </span>
+                        <p className="text-[13px] leading-relaxed text-foreground/80">
+                          {a}
+                        </p>
+                      </div>
                     ))}
-                  </ul>
+                  </div>
                 </div>
               </div>
             </div>

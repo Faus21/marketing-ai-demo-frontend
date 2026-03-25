@@ -7,6 +7,7 @@ import PreOrderButton from "@/components/ui/pre-order-button";
 const NAV_LINKS = [
   { label: "Features", href: "#features" },
   { label: "How It Works", href: "#how-it-works" },
+  { label: "Demo", href: "#demo" },
   { label: "Pricing", href: "#pricing" },
 ];
 
