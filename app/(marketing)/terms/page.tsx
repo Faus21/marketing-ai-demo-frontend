@@ -20,7 +20,7 @@ export default function TermsPage() {
           Back to home
         </Link>
         <h1 className="text-4xl font-bold tracking-tight md:text-5xl">Terms of Service</h1>
-        <p className="mt-4 text-muted">Last updated: March 11, 2026</p>
+        <p className="mt-4 text-muted">Last updated: March 26, 2026</p>
       </header>
 
       <div className="space-y-12 text-sm leading-relaxed text-muted [&_h2]:mb-4 [&_h2]:text-xl [&_h2]:font-semibold [&_h2]:text-foreground [&_h3]:mb-2 [&_h3]:mt-6 [&_h3]:text-base [&_h3]:font-medium [&_h3]:text-foreground [&_p]:mb-4 [&_ul]:mb-4 [&_ul]:list-disc [&_ul]:pl-6 [&_ul]:space-y-2">
@@ -53,17 +53,23 @@ export default function TermsPage() {
         <section>
           <h2>3. Pre-Order &amp; Early Access</h2>
           <p>
-            The Service is currently available for pre-order. By placing a pre-order, you agree to
-            the following:
+            The Service offers two early access options prior to our official launch on April 15,
+            2026. By selecting either option, you agree to the applicable terms below.
           </p>
+
+          <h3>3.1 Founding Member Pre-Order ($10)</h3>
           <ul>
             <li>
               A one-time payment of $10 USD reserves your spot as a founding member, limited to 100
               spots total.
             </li>
             <li>
-              Your pre-order grants you full access to the platform upon its official launch on
-              April 15, 2026.
+              Founding members receive a 50% discount on their subscription fee for the first 3
+              months following the official launch date.
+            </li>
+            <li>
+              Founding members receive priority access to the platform on launch day and exclusive
+              founding member benefits (badge, priority support).
             </li>
             <li>
               If the Service does not launch by the stated date, you are entitled to a full refund
@@ -74,8 +80,33 @@ export default function TermsPage() {
               official launch date.
             </li>
             <li>
-              Founding members will receive preferential pricing and benefits that will be detailed
-              prior to launch.
+              The 50% founding member discount applies only to the first 3 months of your
+              subscription after launch and cannot be combined with other promotional offers unless
+              explicitly stated.
+            </li>
+          </ul>
+
+          <h3>3.2 Waitlist (Free)</h3>
+          <ul>
+            <li>
+              You may join our waitlist at no cost by providing your name and email address.
+            </li>
+            <li>
+              Waitlist members receive a 10% discount on their subscription fee, applied
+              automatically when the platform launches.
+            </li>
+            <li>
+              The 10% waitlist discount applies to your subscription after launch and cannot be
+              combined with the founding member discount or other promotional offers unless
+              explicitly stated.
+            </li>
+            <li>
+              You may unsubscribe from the waitlist at any time by contacting us or using the
+              unsubscribe link in our emails.
+            </li>
+            <li>
+              Joining the waitlist does not guarantee a specific launch-day access slot; founding
+              members receive priority access.
             </li>
           </ul>
         </section>

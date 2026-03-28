@@ -26,7 +26,7 @@ export async function POST(request: Request) {
           product_data: {
             name: "MarketFit AI — Founding Member Pre-Order",
             description:
-              "One-time $10 pre-order. Full platform access on launch day (April 15, 2026).",
+              "One-time $10 pre-order. 3 months at 50% off + full platform access on launch day (April 15, 2026).",
           },
           unit_amount: 1000,
         },

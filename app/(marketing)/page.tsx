@@ -69,15 +69,25 @@ const STEPS = [
   },
 ];
 
-const INCLUDED = [
+const FOUNDING_INCLUDED = [
+  "3 months at 50% off",
+  "Priority access on launch day",
   "Unlimited competitor video analysis",
   "AI-generated growth playbooks",
   "Trend & hook detection engine",
   "Cross-platform intelligence",
   "Performance benchmarking",
   "Export-ready briefs",
-  "Priority founding-member support",
-  "Lifetime discount locked in",
+  "Founding member badge & support",
+];
+
+const WAITLIST_INCLUDED = [
+  "10% off your first subscription",
+  "Launch-day access",
+  "All platform features",
+  "AI-generated growth playbooks",
+  "Cross-platform intelligence",
+  "Export-ready briefs",
 ];
 
 export default function HomePage() {
@@ -378,61 +388,68 @@ export default function HomePage() {
       <section id="pricing" className="relative py-28 md:py-36">
         <div className="orb orb-accent left-1/2 top-1/2 h-[500px] w-[600px] -translate-x-1/2 -translate-y-1/2" />
 
-        <div className="relative mx-auto max-w-3xl px-6">
+        <div className="relative mx-auto max-w-4xl px-6">
           <div className="text-center">
             <p className="text-[11px] font-medium uppercase tracking-[0.15em] text-subtle">
               Early access
             </p>
             <h2 className="mt-4 text-2xl font-semibold tracking-tight md:text-3xl">
-              Be one of the first 100
+              Two ways to get early access
             </h2>
             <p className="mx-auto mt-4 max-w-lg text-[15px] leading-relaxed text-muted">
               We&apos;re launching{" "}
-              <span className="text-foreground">April 15, 2026</span> with a
-              limited founding cohort. Reserve your spot and lock in lifetime
-              pricing.
+              <span className="text-foreground">April 15, 2026</span>. Reserve
+              your spot now — pay $10 to lock in 50% off, or join the waitlist
+              for free and get 10% off at launch.
             </p>
           </div>
 
-          <div className="mx-auto mt-14 max-w-md">
-            <div className="overflow-hidden rounded-xl border border-border/40">
-              {/* Badge */}
-              <div className="flex items-center justify-center gap-2 border-b border-border/30 bg-surface px-5 py-2.5 text-[12px]">
+          <div className="mx-auto mt-14 grid max-w-3xl gap-5 md:grid-cols-2">
+            {/* ── Founding Member (Paid) ── */}
+            <div className="overflow-hidden rounded-xl border border-accent/40">
+              <div className="flex items-center justify-center gap-2 border-b border-accent/30 bg-accent/5 px-5 py-2.5 text-[12px]">
                 <span className="h-1.5 w-1.5 rounded-full bg-emerald-400" />
                 <span className="text-muted">
-                  73 of 100 spots remaining
+                  73 of 100 founding spots remaining
                 </span>
               </div>
 
-              <div className="bg-surface/60 p-8">
-                {/* Price */}
+              <div className="bg-surface/60 p-7">
                 <div className="text-center">
-                  <p className="text-[13px] font-medium text-muted">
-                    Founding Member Pre-Order
-                  </p>
+                  <div className="inline-flex items-center gap-2">
+                    <p className="text-[13px] font-medium text-muted">
+                      Founding Member
+                    </p>
+                    <span className="rounded-full bg-accent/15 px-2 py-0.5 text-[10px] font-medium text-accent-light">
+                      Best value
+                    </span>
+                  </div>
                   <div className="mt-3 flex items-baseline justify-center gap-1.5">
                     <span className="text-4xl font-semibold tracking-tight">$10</span>
                     <span className="text-[13px] text-muted">one-time</span>
                   </div>
+                  <p className="mt-2 text-[13px] text-accent-light font-medium">
+                    3 months at 50% off after launch
+                  </p>
                 </div>
 
-                {/* CTA */}
-                <PreOrderButton className="mt-7 flex h-10 w-full items-center justify-center rounded-lg bg-accent text-[13px] font-medium text-white transition-all duration-200 hover:bg-accent-light glow-sm">
-                  Reserve My Spot
+                <PreOrderButton
+                  defaultTier="paid"
+                  className="mt-6 flex h-10 w-full items-center justify-center rounded-lg bg-accent text-[13px] font-medium text-white transition-all duration-200 hover:bg-accent-light glow-sm"
+                >
+                  Reserve My Spot — $10
                 </PreOrderButton>
 
-                {/* Launch date */}
-                <p className="mt-4 text-center text-[12px] text-muted">
-                  Full access on launch day &middot; April 15, 2026
+                <p className="mt-3 text-center text-[12px] text-muted">
+                  Priority access on launch day &middot; Full refund anytime
                 </p>
 
-                {/* Included */}
-                <div className="mt-7 border-t border-border/30 pt-7">
-                  <p className="mb-4 text-[12px] font-medium text-subtle uppercase tracking-[0.1em]">
+                <div className="mt-6 border-t border-border/30 pt-6">
+                  <p className="mb-3 text-[12px] font-medium text-subtle uppercase tracking-[0.1em]">
                     Everything included
                   </p>
-                  <ul className="grid gap-2.5 sm:grid-cols-2">
-                    {INCLUDED.map((item) => (
+                  <ul className="grid gap-2">
+                    {FOUNDING_INCLUDED.map((item) => (
                       <li
                         key={item}
                         className="flex items-start gap-2 text-[13px] text-muted"
@@ -460,12 +477,76 @@ export default function HomePage() {
               </div>
             </div>
 
-            {/* Trust */}
-            <p className="mt-5 text-center text-[12px] text-subtle">
-              Secure payment via Stripe &middot; Full refund if we don&apos;t
-              launch &middot; Cancel anytime
-            </p>
+            {/* ── Waitlist (Free) ── */}
+            <div className="overflow-hidden rounded-xl border border-border/40">
+              <div className="flex items-center justify-center gap-2 border-b border-border/30 bg-surface px-5 py-2.5 text-[12px]">
+                <span className="text-muted">
+                  No payment required
+                </span>
+              </div>
+
+              <div className="bg-surface/60 p-7">
+                <div className="text-center">
+                  <p className="text-[13px] font-medium text-muted">
+                    Waitlist
+                  </p>
+                  <div className="mt-3 flex items-baseline justify-center gap-1.5">
+                    <span className="text-4xl font-semibold tracking-tight">Free</span>
+                  </div>
+                  <p className="mt-2 text-[13px] text-foreground font-medium">
+                    10% off when we launch
+                  </p>
+                </div>
+
+                <PreOrderButton
+                  defaultTier="free"
+                  className="mt-6 flex h-10 w-full items-center justify-center rounded-lg border border-border/40 text-[13px] font-medium text-foreground transition-all duration-200 hover:border-accent/50 hover:text-accent-light"
+                >
+                  Join the Waitlist — Free
+                </PreOrderButton>
+
+                <p className="mt-3 text-center text-[12px] text-muted">
+                  Just name &amp; email &middot; Unsubscribe anytime
+                </p>
+
+                <div className="mt-6 border-t border-border/30 pt-6">
+                  <p className="mb-3 text-[12px] font-medium text-subtle uppercase tracking-[0.1em]">
+                    What you get
+                  </p>
+                  <ul className="grid gap-2">
+                    {WAITLIST_INCLUDED.map((item) => (
+                      <li
+                        key={item}
+                        className="flex items-start gap-2 text-[13px] text-muted"
+                      >
+                        <svg
+                          width="12"
+                          height="12"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          stroke="currentColor"
+                          strokeWidth="2.5"
+                          className="mt-0.5 shrink-0 text-accent-light"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            d="M4.5 12.75l6 6 9-13.5"
+                          />
+                        </svg>
+                        {item}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </div>
+            </div>
           </div>
+
+          <p className="mt-5 text-center text-[12px] text-subtle">
+            Secure payment via Stripe &middot; Full refund if we don&apos;t
+            launch &middot; Cancel anytime
+          </p>
         </div>
       </section>
 
@@ -477,16 +558,25 @@ export default function HomePage() {
             Stop guessing what works
           </h2>
           <p className="mt-4 text-[15px] leading-relaxed text-muted">
-            100 founding spots. $10 to reserve. Your AI-generated growth
-            playbook is waiting.
+            Reserve a founding spot for $10 and get 3 months at 50% off — or
+            join the waitlist for free and save 10% at launch.
           </p>
-          <div className="mt-8">
-            <PreOrderButton className="inline-flex h-10 items-center justify-center rounded-lg bg-accent px-5 text-[13px] font-medium text-white transition-all duration-200 hover:bg-accent-light glow-sm">
+          <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
+            <PreOrderButton
+              defaultTier="paid"
+              className="inline-flex h-10 items-center justify-center rounded-lg bg-accent px-5 text-[13px] font-medium text-white transition-all duration-200 hover:bg-accent-light glow-sm"
+            >
               Get Early Access — $10
+            </PreOrderButton>
+            <PreOrderButton
+              defaultTier="free"
+              className="inline-flex h-10 items-center justify-center rounded-lg border border-border/40 px-5 text-[13px] font-medium text-foreground transition-colors duration-200 hover:border-accent/50 hover:text-accent-light"
+            >
+              Join Waitlist — Free
             </PreOrderButton>
           </div>
           <p className="mt-4 text-[12px] text-subtle">
-            Secure payment &middot; Cancel anytime &middot; Launch April 15
+            Secure payment via Stripe &middot; Cancel anytime &middot; Launch April 15
           </p>
         </div>
       </section>

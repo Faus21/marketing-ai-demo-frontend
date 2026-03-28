@@ -20,7 +20,7 @@ export default function PrivacyPage() {
           Back to home
         </Link>
         <h1 className="text-4xl font-bold tracking-tight md:text-5xl">Privacy Policy</h1>
-        <p className="mt-4 text-muted">Last updated: March 11, 2026</p>
+        <p className="mt-4 text-muted">Last updated: March 26, 2026</p>
       </header>
 
       <div className="space-y-12 text-sm leading-relaxed text-muted [&_h2]:mb-4 [&_h2]:text-xl [&_h2]:font-semibold [&_h2]:text-foreground [&_h3]:mb-2 [&_h3]:mt-6 [&_h3]:text-base [&_h3]:font-medium [&_h3]:text-foreground [&_p]:mb-4 [&_ul]:mb-4 [&_ul]:list-disc [&_ul]:pl-6 [&_ul]:space-y-2">
@@ -46,6 +46,11 @@ export default function PrivacyPage() {
             <li>
               <strong className="text-foreground">Account information:</strong> name, email
               address, and payment details when you register or place a pre-order.
+            </li>
+            <li>
+              <strong className="text-foreground">Waitlist information:</strong> name and email
+              address when you join our free waitlist. No payment information is collected for
+              waitlist signups.
             </li>
             <li>
               <strong className="text-foreground">Business information:</strong> data about your
@@ -85,7 +90,7 @@ export default function PrivacyPage() {
           <p>We use the information we collect to:</p>
           <ul>
             <li>Provide, maintain, and improve the Service.</li>
-            <li>Process your pre-order and manage your account.</li>
+            <li>Process your pre-order, manage your waitlist signup, and manage your account.</li>
             <li>
               Generate AI-powered insights, recommendations, and analysis based on the business
               data you provide.

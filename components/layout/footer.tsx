@@ -6,6 +6,7 @@ const FOOTER_LINKS: Record<string, FooterLink[]> = {
   Product: [
     { label: "Features", href: "/#features" },
     { label: "How It Works", href: "/#how-it-works" },
+    { label: "ROI Calculator", href: "/calculator" },
     { label: "Pricing", href: "/#pricing" },
   ],
   Legal: [
