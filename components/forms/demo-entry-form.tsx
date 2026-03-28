@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useDemoLimit } from "@/hooks/use-demo-limit";
+import { apiRoutes } from "@/lib/routes";
 
 function PendingModal({ open }: { open: boolean }) {
   const [dots, setDots] = useState("");
@@ -246,7 +247,7 @@ export default function DemoEntryForm({ embedded = false }: { embedded?: boolean
     setError(null);
 
     try {
-      const res = await fetch("http://localhost:8000/api/v1/generate-audience", {
+      const res = await fetch(apiRoutes.generateAudience, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(data),

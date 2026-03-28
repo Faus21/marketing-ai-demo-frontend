@@ -9,6 +9,12 @@ type PreOrderButtonProps = {
   defaultTier?: "paid" | "free";
 };
 
+function getUserIdCookie(): string | null {
+  if (typeof document === "undefined") return null;
+  const match = document.cookie.match(/(?:^|;\s*)user_id=([^;]*)/);
+  return match ? decodeURIComponent(match[1]) : null;
+}
+
 export default function PreOrderButton({
   className,
   children,
@@ -22,7 +28,14 @@ export default function PreOrderButton({
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState(false);
+  const [alreadyRegistered, setAlreadyRegistered] = useState(false);
   const dialogRef = useRef<HTMLDialogElement>(null);
+
+  useEffect(() => {
+    if (getUserIdCookie()) {
+      setAlreadyRegistered(true);
+    }
+  }, []);
 
   useEffect(() => {
     if (open) {
@@ -91,6 +104,7 @@ export default function PreOrderButton({
         }
 
         setSuccess(true);
+        setAlreadyRegistered(true);
       }
     } catch {
       setError("Something went wrong. Please try again.");
@@ -139,7 +153,25 @@ export default function PreOrderButton({
             </svg>
           </button>
 
-          {success ? (
+          {alreadyRegistered ? (
+            <div className="py-6 text-center">
+              <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-emerald-500/10">
+                <svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2" className="text-emerald-400">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+                </svg>
+              </div>
+              <h3 className="text-[15px] font-semibold">You&apos;re already signed up!</h3>
+              <p className="mt-2 text-[13px] text-muted">
+                We&apos;ll notify you at launch. Stay tuned!
+              </p>
+              <button
+                onClick={handleClose}
+                className="mt-6 h-9 rounded-lg border border-border/50 px-5 text-[13px] font-medium text-foreground transition-colors hover:border-accent/50"
+              >
+                Close
+              </button>
+            </div>
+          ) : success ? (
             <div className="py-6 text-center">
               <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-emerald-500/10">
                 <svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2" className="text-emerald-400">
