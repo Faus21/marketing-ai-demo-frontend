@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import jsPDF from "jspdf";
+import { capture } from "@/lib/analytics";
 
 /* ─── Types ─── */
 
@@ -579,6 +580,15 @@ export default function DemoResults() {
     );
   }
 
+  useEffect(() => {
+    if (data) {
+      capture("demo_results_viewed", {
+        segments_count: data.segments.length,
+        overall_score: data.quality.overall_score,
+      });
+    }
+  }, [data]);
+
   const { notes, quality } = data;
   const segments = [...data.segments].sort((a, b) => b.confidence - a.confidence);
 
@@ -842,7 +852,13 @@ export default function DemoResults() {
         {/* ─── Actions ─── */}
         <div className="mt-10 flex items-center justify-end">
           <button
-            onClick={() => generatePDF(data)}
+            onClick={() => {
+              capture("report_exported", {
+                segments_count: data.segments.length,
+                overall_score: data.quality.overall_score,
+              });
+              generatePDF(data);
+            }}
             className="inline-flex h-10 items-center gap-2 rounded-lg bg-accent px-6 text-[13px] font-medium text-white transition-all duration-200 hover:bg-accent-light glow-sm"
           >
             <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">

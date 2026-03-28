@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useDemoLimit } from "@/hooks/use-demo-limit";
 import { apiRoutes } from "@/lib/routes";
+import { capture } from "@/lib/analytics";
 
 function PendingModal({ open }: { open: boolean }) {
   const [dots, setDots] = useState("");
@@ -246,6 +247,15 @@ export default function DemoEntryForm({ embedded = false }: { embedded?: boolean
     setLoading(true);
     setError(null);
 
+    capture("demo_form_submitted", {
+      business_model: data.business_profile.model,
+      business_size: data.business_profile.size,
+      positioning: data.business_profile.positioning,
+      sales_model: data.business_profile.sales_model,
+      country: data.business_profile.default_country,
+      embedded,
+    });
+
     try {
       const res = await fetch(apiRoutes.generateAudience, {
         method: "POST",
@@ -260,15 +270,27 @@ export default function DemoEntryForm({ embedded = false }: { embedded?: boolean
       const result = await res.json();
       recordUsage();
       sessionStorage.setItem("demo-results", JSON.stringify(result));
+      capture("demo_analysis_completed", {
+        segments_count: result.segments?.length,
+        overall_score: result.quality?.overall_score,
+      });
       router.push("/demo/results");
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Something went wrong. Please try again.");
+      const message = err instanceof Error ? err.message : "Something went wrong. Please try again.";
+      capture("demo_analysis_failed", { error: message });
+      setError(message);
     } finally {
       setLoading(false);
     }
   }
 
   if (!ready) return null;
+
+  useEffect(() => {
+    if (ready && limitReached) {
+      capture("demo_limit_reached");
+    }
+  }, [ready, limitReached]);
 
   if (limitReached) {
     return (

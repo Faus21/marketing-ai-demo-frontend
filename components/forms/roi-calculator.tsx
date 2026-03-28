@@ -1,7 +1,8 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect, useRef } from "react";
 import PreOrderButton from "@/components/ui/pre-order-button";
+import { capture } from "@/lib/analytics";
 
 /* ------------------------------------------------------------------ */
 /*  Constants                                                         */
@@ -101,6 +102,36 @@ export default function RoiCalculator() {
       competitorCount: competitors,
     };
   }, [competitors, platforms, hoursPerWeek, hourlyRate, usesAgency, agencyMonthly, teamSize]);
+
+  /* --- track calculator interaction (debounced) --- */
+  const interactionTimer = useRef<ReturnType<typeof setTimeout>>(null);
+  const hasInteracted = useRef(false);
+
+  useEffect(() => {
+    if (!hasInteracted.current) {
+      hasInteracted.current = true;
+      return; // skip initial render
+    }
+
+    if (interactionTimer.current) clearTimeout(interactionTimer.current);
+    interactionTimer.current = setTimeout(() => {
+      capture("roi_calculator_used", {
+        competitors,
+        platforms_count: platforms.length,
+        hours_per_week: hoursPerWeek,
+        hourly_rate: hourlyRate,
+        team_size: teamSize,
+        uses_agency: usesAgency,
+        monthly_savings: results.monthlySavings,
+        annual_savings: results.annualSavings,
+        roi_percent: Math.round(results.roi),
+      });
+    }, 1500);
+
+    return () => {
+      if (interactionTimer.current) clearTimeout(interactionTimer.current);
+    };
+  }, [competitors, platforms, hoursPerWeek, hourlyRate, teamSize, usesAgency, agencyMonthly, results]);
 
   /* --- toggle platform --- */
   function togglePlatform(platform: string) {

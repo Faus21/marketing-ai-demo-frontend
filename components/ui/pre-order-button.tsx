@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
+import { capture } from "@/lib/analytics";
 
 type PreOrderButtonProps = {
   className?: string;
@@ -66,6 +67,7 @@ export default function PreOrderButton({
   function handleOpen() {
     setTier(defaultTier ?? null);
     setOpen(true);
+    capture("cta_clicked", { tier: defaultTier ?? "chooser", source: "pre_order_button" });
   }
 
   async function handleSubmit(e: React.FormEvent) {
@@ -88,6 +90,7 @@ export default function PreOrderButton({
           return;
         }
 
+        capture("checkout_started", { tier: "paid" });
         window.location.href = data.url;
       } else {
         const res = await fetch("/api/waitlist", {
@@ -100,13 +103,16 @@ export default function PreOrderButton({
 
         if (!res.ok) {
           setError(data.error ?? "Something went wrong. Please try again.");
+          capture("waitlist_signup_failed", { error: data.error });
           return;
         }
 
+        capture("waitlist_signup_completed");
         setSuccess(true);
         setAlreadyRegistered(true);
       }
     } catch {
+      capture("signup_error", { tier });
       setError("Something went wrong. Please try again.");
     } finally {
       setLoading(false);
@@ -200,7 +206,7 @@ export default function PreOrderButton({
               <div className="mt-6 space-y-3">
                 {/* Paid tier */}
                 <button
-                  onClick={() => setTier("paid")}
+                  onClick={() => { setTier("paid"); capture("tier_selected", { tier: "paid" }); }}
                   className="group w-full rounded-lg border border-accent/40 bg-accent/5 p-4 text-left transition-all hover:border-accent/70 hover:bg-accent/10"
                 >
                   <div className="flex items-start justify-between">
@@ -235,7 +241,7 @@ export default function PreOrderButton({
 
                 {/* Free tier */}
                 <button
-                  onClick={() => setTier("free")}
+                  onClick={() => { setTier("free"); capture("tier_selected", { tier: "free" }); }}
                   className="group w-full rounded-lg border border-border/40 bg-surface p-4 text-left transition-all hover:border-border/70 hover:bg-surface-light"
                 >
                   <div className="flex items-start justify-between">
