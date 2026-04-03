@@ -2,20 +2,8 @@
 
 import posthog from "posthog-js";
 import { PostHogProvider as PHProvider, usePostHog } from "posthog-js/react";
-import { useEffect, Suspense } from "react";
+import { useEffect, Suspense, useState } from "react";
 import { usePathname, useSearchParams } from "next/navigation";
-
-if (
-  typeof window !== "undefined" &&
-  process.env.NEXT_PUBLIC_POSTHOG_KEY
-) {
-  posthog.init(process.env.NEXT_PUBLIC_POSTHOG_KEY, {
-    api_host: process.env.NEXT_PUBLIC_POSTHOG_HOST || "https://us.i.posthog.com",
-    person_profiles: "identified_only",
-    capture_pageview: false, // we capture manually to track Next.js route changes
-    capture_pageleave: true,
-  });
-}
 
 function PostHogPageView() {
   const pathname = usePathname();
@@ -37,7 +25,23 @@ function PostHogPageView() {
 }
 
 export function PostHogProvider({ children }: { children: React.ReactNode }) {
-  if (!process.env.NEXT_PUBLIC_POSTHOG_KEY) {
+  const [initialized, setInitialized] = useState(false);
+
+  useEffect(() => {
+    if (process.env.NEXT_PUBLIC_POSTHOG_KEY && !posthog.__loaded) {
+      posthog.init(process.env.NEXT_PUBLIC_POSTHOG_KEY, {
+        api_host: process.env.NEXT_PUBLIC_POSTHOG_HOST || "https://us.i.posthog.com",
+        person_profiles: "identified_only",
+        capture_pageview: false,
+        capture_pageleave: true,
+      });
+      setInitialized(true);
+    } else if (posthog.__loaded) {
+      setInitialized(true);
+    }
+  }, []);
+
+  if (!initialized) {
     return <>{children}</>;
   }
 
