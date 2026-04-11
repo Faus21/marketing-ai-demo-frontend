@@ -284,13 +284,13 @@ export default function DemoEntryForm({ embedded = false }: { embedded?: boolean
     }
   }
 
-  if (!ready) return null;
-
   useEffect(() => {
     if (ready && limitReached) {
       capture("demo_limit_reached");
     }
   }, [ready, limitReached]);
+
+  if (!ready) return null;
 
   if (limitReached) {
     return (
