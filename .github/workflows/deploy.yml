@@ -15,6 +15,7 @@ jobs:
           username: ${{ secrets.SSH_USER }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
+            git config --global --add safe.directory /var/www/app/frontend
             cd /var/www/app/frontend
             git pull origin main
             cd /var/www/app
