@@ -15,9 +15,7 @@ jobs:
           username: ${{ secrets.SSH_USER }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
-            cd ${{ secrets.DEPLOY_PATH }}
-            cd marketing-ai-demo-frontend
+            cd /var/www/app/frontend
             git pull origin main
-            cd ..
-            docker compose build frontend
-            docker compose up -d frontend
+            cd /var/www/app
+            docker compose up -d --no-deps --build frontend
