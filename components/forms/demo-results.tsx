@@ -549,6 +549,15 @@ export default function DemoResults() {
     setLoading(false);
   }, []);
 
+  useEffect(() => {
+    if (data) {
+      capture("demo_results_viewed", {
+        segments_count: data.segments.length,
+        overall_score: data.quality.overall_score,
+      });
+    }
+  }, [data]);
+
   if (loading) {
     return (
       <div className="relative flex min-h-[60vh] items-center justify-center py-28 md:py-36">
@@ -579,15 +588,6 @@ export default function DemoResults() {
       </div>
     );
   }
-
-  useEffect(() => {
-    if (data) {
-      capture("demo_results_viewed", {
-        segments_count: data.segments.length,
-        overall_score: data.quality.overall_score,
-      });
-    }
-  }, [data]);
 
   const { notes, quality } = data;
   const segments = [...data.segments].sort((a, b) => b.confidence - a.confidence);
